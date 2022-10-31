@@ -10,4 +10,8 @@
     <Folder Include="Controllers" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ElegantStore.Infrastructure\ElegantStore.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
