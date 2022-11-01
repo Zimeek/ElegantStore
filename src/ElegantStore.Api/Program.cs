@@ -1,5 +1,5 @@
 using System.Text.Json.Serialization;
-using ElegantStore.Infrastructure.Data.Configurations;
+using ElegantStore.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +10,8 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddDbContext(builder.Configuration);
+builder.Services.AddServices();
+builder.Services.AddAutoMapper();
 
 var app = builder.Build();
 

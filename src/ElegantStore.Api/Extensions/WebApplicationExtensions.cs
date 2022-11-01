@@ -1,9 +1,8 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
+using ElegantStore.Infrastructure.Data;
 
-namespace ElegantStore.Infrastructure.Data.Configurations;
+namespace ElegantStore.Api.Extensions;
 
-public static class SeederConfiguration
+public static class WebApplicationExtensions
 {
     public static async Task<WebApplication> UseSeeder(this WebApplication app)
     {
