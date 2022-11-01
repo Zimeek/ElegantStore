@@ -28,8 +28,8 @@ public static class ApplicationDbContextSeeder
         {
             var products = new[]
             {
-                new Product(1, "Nike", "Air Max", "test", 999M),
-                new Product(2, "Adidas", "Superstar", "test", 499M)
+                new Product(1, "Nike", "Air Max", "blue", "test", 999M),
+                new Product(2, "Adidas", "Superstar", "red", "test", 499M)
             };
 
             await dbContext.Products.AddRangeAsync(products);
