@@ -1,29 +1,34 @@
-using AutoMapper;
 using ElegantStore.Api.Services;
-using ElegantStore.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ElegantStore.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ProductController : ControllerBase
+public class ProductsController : ControllerBase
 {
-    private readonly ApplicationDbContext _dbContext;
     private readonly IProductService _productService;
-    private readonly IMapper _mapper;
 
-    public ProductController(
-        IProductService productService, 
-        IMapper mapper)
+    public ProductsController(
+        IProductService productService)
     {
         _productService = productService;
-        _mapper = mapper;
     }
     
-    [HttpGet("All")]
-    public async Task<IActionResult> GetAllAsync()
+    [HttpGet]
+    public async Task<IActionResult> GetProductsAsync([FromQuery] int? page, [FromQuery] int? pageSize)
     {
-        return Ok(await _productService.GetAllProductsAsync());
+        if (page is not null && pageSize is not null)
+        {
+            return Ok(await _productService.GetProductsPagedAsync((int)page, (int)pageSize));
+        }
+        
+        return Ok(await _productService.GetProductsAsync());
+    }
+
+    [HttpGet("{productId:int}")]
+    public async Task<IActionResult> GetProductByIdAsync(int productId)
+    {
+        return Ok(await _productService.GetProductWithColorVariantsByIdAsync(productId));
     }
 }

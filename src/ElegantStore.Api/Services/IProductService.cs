@@ -4,5 +4,7 @@ namespace ElegantStore.Api.Services;
 
 public interface IProductService
 {
-    Task<ICollection<ProductDTO>> GetAllProductsAsync();
+    Task<ICollection<ProductDTO>> GetProductsAsync();
+    Task<ICollection<ProductDTO>> GetProductsPagedAsync(int page, int pageSize);
+    Task<ProductFullDTO> GetProductWithColorVariantsByIdAsync(int productId);
 }
