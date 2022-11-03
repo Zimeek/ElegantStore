@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElegantStore.Infrastructure
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "ElegantStore.Web", "src\ElegantStore.Web\ElegantStore.Web.esproj", "{07913F13-21B8-4FD0-9D86-81DB6100304B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElegantStore.UnitTests", "tests\ElegantStore.UnitTests\ElegantStore.UnitTests.csproj", "{5631A19D-BA4C-41E5-A943-4A8BE3B7A33C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{07913F13-21B8-4FD0-9D86-81DB6100304B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07913F13-21B8-4FD0-9D86-81DB6100304B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{07913F13-21B8-4FD0-9D86-81DB6100304B}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{5631A19D-BA4C-41E5-A943-4A8BE3B7A33C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5631A19D-BA4C-41E5-A943-4A8BE3B7A33C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5631A19D-BA4C-41E5-A943-4A8BE3B7A33C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5631A19D-BA4C-41E5-A943-4A8BE3B7A33C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
