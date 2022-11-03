@@ -1,3 +1,4 @@
+using ElegantStore.Api.Middlewares;
 using ElegantStore.Api.Services;
 using ElegantStore.Domain.Interfaces;
 using ElegantStore.Infrastructure.Data;
@@ -20,6 +21,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddScoped<IProductService, ProductService>();
+        services.AddTransient<GlobalExceptionHandler>();
         
         return services;
     }

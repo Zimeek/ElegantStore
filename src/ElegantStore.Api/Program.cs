@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using ElegantStore.Api.Extensions;
+using ElegantStore.Api.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,8 @@ var app = builder.Build();
 await app.UseSeeder();
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<GlobalExceptionHandler>();
 
 app.UseAuthorization();
 
