@@ -2,11 +2,11 @@ namespace ElegantStore.Api.DTOs;
 
 public record ProductFullDTO
 {
-    public int Id { get; set; }
-    public string Brand { get; set; }
-    public string Model { get; set; }
-    public string Color { get; set; }
-    public string ImageBase { get; set; }
-    public decimal Price { get; set; }
-    public ICollection<ProductColorDTO> ColorVariants { get; set; }
+    public int Id { get; init; }
+    public string Brand { get; init; }
+    public string Model { get; init; }
+    public string Color { get; init; }
+    public string ImageBase { get; init; }
+    public decimal Price { get; init; }
+    public ICollection<ProductColorDTO> ColorVariants { get; init; }
 }
