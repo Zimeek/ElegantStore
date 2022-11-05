@@ -58,4 +58,39 @@ public class ProductServiceTests
 
         await Assert.ThrowsAsync<ProductNotFoundException>(() => _productService.GetProductWithColorVariantsByIdAsync(productId));
     }
+
+    [Fact]
+    public async Task GetProductsPagedAsync_ShouldReturnProducts_WhenProductsExist()
+    {
+        var productsMock = new List<Product>()
+        {
+            new Product(1, "Adidas", "Superstar", "blue", "image_base", 20M),
+            new Product(2, "Adidas", "Superstar", "blue", "image_base", 20M),
+        };
+
+        var productsDtoMock = new List<ProductDTO>()
+        {
+            new ProductDTO
+            {
+                Id = productsMock[0].Id, Brand = productsMock[0].Brand, Color = productsMock[0].Color,
+                ImageBase = productsMock[0].ImageBase, Price = productsMock[0].Price
+            },
+            new ProductDTO
+            {
+                Id = productsMock[1].Id, Brand = productsMock[1].Brand, Color = productsMock[1].Color,
+                ImageBase = productsMock[1].ImageBase, Price = productsMock[1].Price
+            }
+        };
+        
+        _productRepositoryMock.Setup(repository => repository.ListAsync(It.IsAny<ProductsPagedSpec>(), default))
+            .ReturnsAsync(productsMock);
+
+        _mapperMock.Setup(mapper => mapper.Map<ICollection<Product>, ICollection<ProductDTO>>(It.IsAny<ICollection<Product>>()))
+            .Returns(productsDtoMock);
+
+        var expectedProducts = await _productService.GetProductsPagedAsync(1, 2);
+        
+        Assert.NotEmpty(expectedProducts);
+
+    }
 }
