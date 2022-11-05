@@ -21,7 +21,9 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddScoped<IProductService, ProductService>();
+        services.AddScoped<ICartService, CartService>();
         services.AddTransient<GlobalExceptionHandler>();
+        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         
         return services;
     }

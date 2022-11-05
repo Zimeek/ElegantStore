@@ -1,4 +1,5 @@
 using Ardalis.GuardClauses;
+using ElegantStore.Domain.Entities.Aggregates.CartAggregate;
 using ElegantStore.Domain.Interfaces;
 
 namespace ElegantStore.Domain.Entities.Aggregates.ProductAggregate;
@@ -31,4 +32,5 @@ public class Product : BaseEntity<int>, IAggregateRoot
     public string ImageBase { get; private set; }
     public decimal Price { get; private set; }
     public ICollection<ProductColor> ColorVariants { get; private set; } = new List<ProductColor>();
+    public ICollection<CartItem> CartItems { get; private set; }
 }

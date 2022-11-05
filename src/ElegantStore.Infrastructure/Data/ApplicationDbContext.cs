@@ -1,5 +1,6 @@
 using System.Reflection;
 using ElegantStore.Domain.Entities;
+using ElegantStore.Domain.Entities.Aggregates.CartAggregate;
 using ElegantStore.Domain.Entities.Aggregates.ProductAggregate;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,4 +22,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Color> Colors { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<ProductColor> ProductColors { get; set; }
+    public DbSet<Cart> Carts { get; set; }
+    public DbSet<CartItem> CartItems { get; set; }
+
 }
