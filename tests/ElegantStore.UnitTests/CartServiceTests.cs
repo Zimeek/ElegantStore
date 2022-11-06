@@ -1,4 +1,3 @@
-using AutoMapper;
 using ElegantStore.Api.DTOs;
 using ElegantStore.Api.Exceptions;
 using ElegantStore.Api.Requests;
@@ -15,12 +14,11 @@ public class CartServiceTests
 {
     private readonly CartService _cartService;
     private readonly Mock<IRepository<Cart>> _cartRepositoryMock = new ();
-    private readonly Mock<IMapper> _mapperMock = new();
     private readonly Mock<IHttpContextAccessor> _httpContextAccessorMock = new ();
 
     public CartServiceTests()
     {
-        _cartService = new CartService(_cartRepositoryMock.Object, _mapperMock.Object, _httpContextAccessorMock.Object);
+        _cartService = new CartService(_cartRepositoryMock.Object, _httpContextAccessorMock.Object);
     }
 
     private Cart GetEmptyMockCart()
@@ -44,25 +42,6 @@ public class CartServiceTests
         cart.Items.Add(item);
 
         return cart;
-    }
-
-    private CartDTO GetEmptyCartDto(Cart mockCart)
-    {
-        return new CartDTO()
-        {
-            Id = mockCart.Id,
-            Items = new List<CartItemDTO>()
-        };
-    }
-
-    private CartItemDTO GetMockCartItemDto()
-    {
-        return new CartItemDTO()
-        {
-            Id ="6c77c52c-c94d-4c3d-87bd-31e6b919dda2",
-            ProductId = 1,
-            Quantity = 1
-        };
     }
 
     private AddCartItemRequest GetMockAddCartItemRequest()
@@ -92,7 +71,6 @@ public class CartServiceTests
     public async Task GetCartAsync_CreateAndReturnCart_WhenCartDoesNotExist()
     {
         var mockCart = GetEmptyMockCart();
-        var mockCartDto = GetEmptyCartDto(mockCart);
 
         SetupIHttpContextAccessor(Guid.NewGuid().ToString());
 
@@ -101,9 +79,6 @@ public class CartServiceTests
 
         _cartRepositoryMock.Setup(repo => repo.AddAsync(It.IsAny<Cart>(), default))
             .ReturnsAsync(mockCart);
-
-        _mapperMock.Setup(mapper => mapper.Map<Cart, CartDTO>(It.IsAny<Cart>()))
-            .Returns(mockCartDto);
 
         var expectedCart = await _cartService.GetCartAsync();
 
@@ -116,15 +91,11 @@ public class CartServiceTests
     public async Task GetCartAsync_ReturnCart_WhenCartExists()
     {
         var mockCart = GetEmptyMockCart();
-        var mockCartDto = GetEmptyCartDto(mockCart);
 
         SetupIHttpContextAccessor(mockCart.Id);
 
         _cartRepositoryMock.Setup(repo => repo.FirstOrDefaultAsync(It.IsAny<CartByIdSpec>(), default))
             .ReturnsAsync(mockCart);
-
-        _mapperMock.Setup(mapper => mapper.Map<Cart, CartDTO>(It.IsAny<Cart>()))
-            .Returns(mockCartDto);
 
         var expectedCart = await _cartService.GetCartAsync();
 
@@ -138,15 +109,11 @@ public class CartServiceTests
     {
         var mockCart = GetEmptyMockCart();
         var mockRequest = GetMockAddCartItemRequest();
-        var mockCartItemDto = GetMockCartItemDto();
-        
+
         SetupIHttpContextAccessor(mockCart.Id);
         
         _cartRepositoryMock.Setup(repo => repo.FirstOrDefaultAsync(It.IsAny<CartByIdSpec>(), default))
             .ReturnsAsync(mockCart);
-
-        _mapperMock.Setup(mapper => mapper.Map<CartItem, CartItemDTO>(It.IsAny<CartItem>()))
-            .Returns(mockCartItemDto);
 
         var expectedItem = await _cartService.AddCartItem(mockRequest);
         
@@ -174,15 +141,11 @@ public class CartServiceTests
     {
         var mockCart = GetMockCart();
         var mockRequest = GetMockUpdateCartItemRequest();
-        var mockCartItemDto = GetMockCartItemDto();
-        
+
         SetupIHttpContextAccessor(mockCart.Id);
         
         _cartRepositoryMock.Setup(repo => repo.FirstOrDefaultAsync(It.IsAny<CartByIdSpec>(), default))
             .ReturnsAsync(mockCart);
-        
-        _mapperMock.Setup(mapper => mapper.Map<CartItem, CartItemDTO>(It.IsAny<CartItem>()))
-            .Returns(mockCartItemDto);
 
         var expectedItem = await _cartService.UpdateCartItem(mockRequest);
         
