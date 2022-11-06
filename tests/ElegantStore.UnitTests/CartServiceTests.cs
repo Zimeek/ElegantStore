@@ -6,22 +6,23 @@ using ElegantStore.Domain.Entities.Aggregates.CartAggregate;
 using ElegantStore.Domain.Interfaces;
 using ElegantStore.Domain.Specifications;
 using Microsoft.AspNetCore.Http;
-using Moq;
+using NSubstitute;
+using NSubstitute.ReturnsExtensions;
 
 namespace ElegantStore.UnitTests;
 
 public class CartServiceTests
 {
     private readonly CartService _cartService;
-    private readonly Mock<IRepository<Cart>> _cartRepositoryMock = new ();
-    private readonly Mock<IHttpContextAccessor> _httpContextAccessorMock = new ();
+    private readonly IRepository<Cart> _cartRepository = Substitute.For<IRepository<Cart>>();
+    private readonly IHttpContextAccessor _httpContextAccessor = Substitute.For<IHttpContextAccessor>();
 
     public CartServiceTests()
     {
-        _cartService = new CartService(_cartRepositoryMock.Object, _httpContextAccessorMock.Object);
+        _cartService = new CartService(_cartRepository, _httpContextAccessor);
     }
 
-    private Cart GetEmptyMockCart()
+    private Cart GetEmptyCart()
     {
         return new Cart()
         {
@@ -29,7 +30,7 @@ public class CartServiceTests
         };
     }
 
-    private Cart GetMockCart()
+    private Cart GetCart()
     {
         var cart = new Cart()
         {
@@ -44,7 +45,7 @@ public class CartServiceTests
         return cart;
     }
 
-    private AddCartItemRequest GetMockAddCartItemRequest()
+    private AddCartItemRequest GetAddCartItemRequest()
     {
         return new AddCartItemRequest()
         {
@@ -53,7 +54,7 @@ public class CartServiceTests
         };
     }
 
-    private UpdateCartItemRequest GetMockUpdateCartItemRequest()
+    private UpdateCartItemRequest GetUpdateCartItemRequest()
     {
         return new UpdateCartItemRequest()
         {
@@ -62,142 +63,127 @@ public class CartServiceTests
         };
     }
 
-    private void SetupIHttpContextAccessor(string cartId)
-    {
-        _httpContextAccessorMock.Setup(context => context.HttpContext!.Request.Headers.Add("cartId", cartId));
-    }
-
     [Fact]
-    public async Task GetCartAsync_CreateAndReturnCart_WhenCartDoesNotExist()
+    public async Task GetCartAsync_CreateCart_WhenCartDoesNotExist()
     {
-        var mockCart = GetEmptyMockCart();
+        var cart = GetEmptyCart();
 
-        SetupIHttpContextAccessor(Guid.NewGuid().ToString());
-
-        _cartRepositoryMock.Setup(repo => repo.FirstOrDefaultAsync(It.IsAny<CartByIdSpec>(), default))
-            .ReturnsAsync(() => null);
-
-        _cartRepositoryMock.Setup(repo => repo.AddAsync(It.IsAny<Cart>(), default))
-            .ReturnsAsync(mockCart);
+        _httpContextAccessor.HttpContext!.Request.Headers.Add("cartId",cart.Id);
+        
+        _cartRepository.FirstOrDefaultAsync(Arg.Any<CartByIdSpec>()).ReturnsNull();
+        _cartRepository.AddAsync(Arg.Any<Cart>()).Returns(cart);
 
         var expectedCart = await _cartService.GetCartAsync();
 
         Assert.NotNull(expectedCart);
         Assert.IsType<CartDTO>(expectedCart);
-        Assert.Equal(mockCart.Id, expectedCart.Id);
+        Assert.Equal(cart.Id, expectedCart.Id);
     }
 
     [Fact]
     public async Task GetCartAsync_ReturnCart_WhenCartExists()
     {
-        var mockCart = GetEmptyMockCart();
+        var cart = GetEmptyCart();
 
-        SetupIHttpContextAccessor(mockCart.Id);
+        _httpContextAccessor.HttpContext!.Request.Headers.Add("cartId", cart.Id);
 
-        _cartRepositoryMock.Setup(repo => repo.FirstOrDefaultAsync(It.IsAny<CartByIdSpec>(), default))
-            .ReturnsAsync(mockCart);
+        _cartRepository.FirstOrDefaultAsync(Arg.Any<CartByIdSpec>()).Returns(cart);
 
         var expectedCart = await _cartService.GetCartAsync();
 
         Assert.NotNull(expectedCart);
         Assert.IsType<CartDTO>(expectedCart);
-        Assert.Equal(mockCart.Id, expectedCart.Id);
+        Assert.Equal(cart.Id, expectedCart.Id);
     }
 
     [Fact]
     public async Task AddCartItem_ShouldAddItem_WhenItemNotInCart()
     {
-        var mockCart = GetEmptyMockCart();
-        var mockRequest = GetMockAddCartItemRequest();
+        var cart = GetEmptyCart();
+        var request = GetAddCartItemRequest();
 
-        SetupIHttpContextAccessor(mockCart.Id);
+        _httpContextAccessor.HttpContext!.Request.Headers.Add("cartId", cart.Id);
         
-        _cartRepositoryMock.Setup(repo => repo.FirstOrDefaultAsync(It.IsAny<CartByIdSpec>(), default))
-            .ReturnsAsync(mockCart);
+        _cartRepository.FirstOrDefaultAsync(Arg.Any<CartByIdSpec>()).Returns(cart);
 
-        var expectedItem = await _cartService.AddCartItem(mockRequest);
+        var expectedItem = await _cartService.AddCartItem(request);
         
         Assert.NotNull(expectedItem);
         Assert.IsType<CartItemDTO>(expectedItem);
-        Assert.Equal(mockRequest.ProductId, expectedItem.ProductId);
+        Assert.Equal(request.ProductId, expectedItem.ProductId);
     }
 
     [Fact]
     public async Task AddCartItem_ShouldThrowException_WhenItemAlreadyInCart()
     {
-        var mockCart = GetMockCart();
-        var mockRequest = GetMockAddCartItemRequest();
+        var cart = GetCart();
+        var request = GetAddCartItemRequest();
         
-        SetupIHttpContextAccessor(mockCart.Id);
+        _httpContextAccessor.HttpContext!.Request.Headers.Add("cartId", cart.Id);
         
-        _cartRepositoryMock.Setup(repo => repo.FirstOrDefaultAsync(It.IsAny<CartByIdSpec>(), default))
-            .ReturnsAsync(mockCart);
+        _cartRepository.FirstOrDefaultAsync(Arg.Any<CartByIdSpec>()).Returns(cart);
 
-        await Assert.ThrowsAsync<ProductAlreadyInCartException>(() => _cartService.AddCartItem(mockRequest));
+        await Assert.ThrowsAsync<ProductAlreadyInCartException>(() => _cartService.AddCartItem(request));
     }
 
     [Fact]
     public async Task UpdateCartItem_ShouldUpdateItem_WhenItemExists()
     {
-        var mockCart = GetMockCart();
-        var mockRequest = GetMockUpdateCartItemRequest();
+        var cart = GetCart();
+        var request = GetUpdateCartItemRequest();
 
-        SetupIHttpContextAccessor(mockCart.Id);
+        _httpContextAccessor.HttpContext!.Request.Headers.Add("cartId", cart.Id);
         
-        _cartRepositoryMock.Setup(repo => repo.FirstOrDefaultAsync(It.IsAny<CartByIdSpec>(), default))
-            .ReturnsAsync(mockCart);
+        _cartRepository.FirstOrDefaultAsync(Arg.Any<CartByIdSpec>()).Returns(cart);
 
-        var expectedItem = await _cartService.UpdateCartItem(mockRequest);
+        var expectedItem = await _cartService.UpdateCartItem(request);
         
         Assert.NotNull(expectedItem);
         Assert.IsType<CartItemDTO>(expectedItem);
-        Assert.Equal(mockRequest.ItemId, expectedItem.Id);
-        Assert.Equal(mockRequest.Quantity, expectedItem.Quantity);
+        Assert.Equal(request.ItemId, expectedItem.Id);
+        Assert.Equal(request.Quantity, expectedItem.Quantity);
     }
 
     [Fact]
     public async Task UpdateCartItem_ShouldThrowException_WhenItemDoesNotExist()
     {
-        var mockCart = GetEmptyMockCart();
-        var mockRequest = GetMockUpdateCartItemRequest();
+        var cart = GetEmptyCart();
+        var request = GetUpdateCartItemRequest();
         
-        SetupIHttpContextAccessor(mockCart.Id);
+        _httpContextAccessor.HttpContext!.Request.Headers.Add("cartId", cart.Id);
         
-        _cartRepositoryMock.Setup(repo => repo.FirstOrDefaultAsync(It.IsAny<CartByIdSpec>(), default))
-            .ReturnsAsync(mockCart);
+        _cartRepository.FirstOrDefaultAsync(Arg.Any<CartByIdSpec>()).Returns(cart);
 
-        await Assert.ThrowsAsync<CartItemNotFoundException>(() => _cartService.UpdateCartItem(mockRequest));
+        await Assert.ThrowsAsync<CartItemNotFoundException>(() => _cartService.UpdateCartItem(request));
 
     }
 
     [Fact]
     public async Task RemoveCartItem_ShouldRemoveItem_WhenItemExists()
     {
-        var mockCart = GetMockCart();
+        var cart = GetCart();
         var itemId = "6c77c52c-c94d-4c3d-87bd-31e6b919dda2";
         
-        SetupIHttpContextAccessor(mockCart.Id);
+        _httpContextAccessor.HttpContext!.Request.Headers.Add("cartId", cart.Id);
         
-        _cartRepositoryMock.Setup(repo => repo.FirstOrDefaultAsync(It.IsAny<CartByIdSpec>(), default))
-            .ReturnsAsync(mockCart);
+        _cartRepository.FirstOrDefaultAsync(Arg.Any<CartByIdSpec>()).Returns(cart);
 
         await _cartService.RemoveCartItem(itemId);
         
-        Assert.Empty(mockCart.Items);
+        Assert.Empty(cart.Items);
     }
     
     [Fact]
     public async Task ClearCart_ShouldRemoveAllItems_WhenItemsExist()
     {
-        var mockCart = GetMockCart();
+        var cart = GetCart();
 
-        SetupIHttpContextAccessor(mockCart.Id);
+        _httpContextAccessor.HttpContext!.Request.Headers.Add("cartId", cart.Id);
         
-        _cartRepositoryMock.Setup(repo => repo.FirstOrDefaultAsync(It.IsAny<CartByIdSpec>(), default))
-            .ReturnsAsync(mockCart);
+        _cartRepository.FirstOrDefaultAsync(Arg.Any<CartByIdSpec>()).Returns(cart);
 
         await _cartService.ClearCart();
         
-        Assert.Empty(mockCart.Items);
+        Assert.Empty(cart.Items);
     }
 }

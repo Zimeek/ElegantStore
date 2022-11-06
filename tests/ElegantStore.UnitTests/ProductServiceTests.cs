@@ -4,26 +4,27 @@ using ElegantStore.Api.Services;
 using ElegantStore.Domain.Entities.Aggregates.ProductAggregate;
 using ElegantStore.Domain.Interfaces;
 using ElegantStore.Domain.Specifications;
-using Moq;
+using NSubstitute;
+using NSubstitute.ReturnsExtensions;
 
 namespace ElegantStore.UnitTests;
 
 public class ProductServiceTests
 {
     private readonly ProductService _productService;
-    private readonly Mock<IRepository<Product>> _productRepositoryMock = new();
+    private readonly IRepository<Product> _productRepository = Substitute.For<IRepository<Product>>();
 
     public ProductServiceTests()
     {
-        _productService = new ProductService(_productRepositoryMock.Object);
+        _productService = new ProductService(_productRepository);
     }
 
-    private Product GetMockProduct()
+    private Product GetProduct()
     {
         return new Product(3, "Adidas", "Superstars", "blue", "image_base", 10M);
     }
 
-    private List<Product> GetMockProductList()
+    private List<Product> GetProductList()
     {
         return new List<Product>()
         {
@@ -35,16 +36,15 @@ public class ProductServiceTests
     [Fact]
     public async Task GetProductWithColorVariantsByIdAsync_ShouldReturnProduct_WhenProductExists()
     {
-        var productMock = GetMockProduct();
+        var product = GetProduct();
 
-        _productRepositoryMock.Setup(repository => repository.FirstOrDefaultAsync(It.IsAny<ProductWithColorVariantsByIdSpec>(), default))
-            .ReturnsAsync(productMock);
+        _productRepository.FirstOrDefaultAsync(Arg.Any<ProductWithColorVariantsByIdSpec>()).Returns(product);
 
-        var productExpected = await _productService.GetProductWithColorVariantsByIdAsync(productMock.Id);
+        var productExpected = await _productService.GetProductWithColorVariantsByIdAsync(product.Id);
         
         Assert.NotNull(productExpected);
         Assert.IsType<ProductFullDTO>(productExpected);
-        Assert.Equal(productMock.Id, productExpected.Id);
+        Assert.Equal(product.Id, productExpected.Id);
     }
 
     [Fact]
@@ -52,9 +52,7 @@ public class ProductServiceTests
     {
         var productId = 3;
 
-        _productRepositoryMock.Setup(repository =>
-                repository.FirstOrDefaultAsync(It.IsAny<ProductWithColorVariantsByIdSpec>(), default))
-            .ReturnsAsync(() => null);
+        _productRepository.FirstOrDefaultAsync(Arg.Any<ProductWithColorVariantsByIdSpec>()).ReturnsNull();
 
         await Assert.ThrowsAsync<ProductNotFoundException>(() => _productService.GetProductWithColorVariantsByIdAsync(productId));
     }
@@ -62,14 +60,14 @@ public class ProductServiceTests
     [Fact]
     public async Task GetProductsPagedAsync_ShouldReturnProducts_WhenProductsExist()
     {
-        var mockProducts = GetMockProductList();
-
-        _productRepositoryMock.Setup(repository => repository.ListAsync(It.IsAny<ProductsPagedSpec>(), default))
-            .ReturnsAsync(mockProducts);
+        var products = GetProductList();
+        
+        _productRepository.ListAsync(Arg.Any<ProductsPagedSpec>()).Returns(products);
 
         var expectedProducts = await _productService.GetProductsPagedAsync(1, 2);
         
         Assert.NotEmpty(expectedProducts);
+        Assert.Equal(products.Count, expectedProducts.Count);
 
     }
 }
