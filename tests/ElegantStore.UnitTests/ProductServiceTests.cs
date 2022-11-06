@@ -4,6 +4,7 @@ using ElegantStore.Api.Services;
 using ElegantStore.Domain.Entities.Aggregates.ProductAggregate;
 using ElegantStore.Domain.Interfaces;
 using ElegantStore.Domain.Specifications;
+using FluentAssertions;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 
@@ -40,11 +41,11 @@ public class ProductServiceTests
 
         _productRepository.FirstOrDefaultAsync(Arg.Any<ProductWithColorVariantsByIdSpec>()).Returns(product);
 
-        var productExpected = await _productService.GetProductWithColorVariantsByIdAsync(product.Id);
-        
-        Assert.NotNull(productExpected);
-        Assert.IsType<ProductFullDTO>(productExpected);
-        Assert.Equal(product.Id, productExpected.Id);
+        var expectedProduct = await _productService.GetProductWithColorVariantsByIdAsync(product.Id);
+
+        expectedProduct.Should().NotBeNull();
+        expectedProduct.Should().BeOfType<ProductFullDTO>();
+        expectedProduct.Id.Should().Be(product.Id);
     }
 
     [Fact]
@@ -54,7 +55,8 @@ public class ProductServiceTests
 
         _productRepository.FirstOrDefaultAsync(Arg.Any<ProductWithColorVariantsByIdSpec>()).ReturnsNull();
 
-        await Assert.ThrowsAsync<ProductNotFoundException>(() => _productService.GetProductWithColorVariantsByIdAsync(productId));
+        await _productService.Invoking(service => service.GetProductWithColorVariantsByIdAsync(productId)).Should()
+            .ThrowAsync<ProductNotFoundException>();
     }
 
     [Fact]
@@ -65,9 +67,9 @@ public class ProductServiceTests
         _productRepository.ListAsync(Arg.Any<ProductsPagedSpec>()).Returns(products);
 
         var expectedProducts = await _productService.GetProductsPagedAsync(1, 2);
-        
-        Assert.NotEmpty(expectedProducts);
-        Assert.Equal(products.Count, expectedProducts.Count);
+
+        expectedProducts.Should().NotBeEmpty();
+        expectedProducts.Count.Should().Be(products.Count);
 
     }
 }

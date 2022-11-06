@@ -5,8 +5,10 @@ using ElegantStore.Api.Services;
 using ElegantStore.Domain.Entities.Aggregates.CartAggregate;
 using ElegantStore.Domain.Interfaces;
 using ElegantStore.Domain.Specifications;
+using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using NSubstitute;
+using NSubstitute.ExceptionExtensions;
 using NSubstitute.ReturnsExtensions;
 
 namespace ElegantStore.UnitTests;
@@ -75,9 +77,9 @@ public class CartServiceTests
 
         var expectedCart = await _cartService.GetCartAsync();
 
-        Assert.NotNull(expectedCart);
-        Assert.IsType<CartDTO>(expectedCart);
-        Assert.Equal(cart.Id, expectedCart.Id);
+        expectedCart.Should().NotBeNull();
+        expectedCart.Should().BeOfType<CartDTO>();
+        expectedCart.Id.Should().Be(cart.Id);
     }
 
     [Fact]
@@ -91,9 +93,9 @@ public class CartServiceTests
 
         var expectedCart = await _cartService.GetCartAsync();
 
-        Assert.NotNull(expectedCart);
-        Assert.IsType<CartDTO>(expectedCart);
-        Assert.Equal(cart.Id, expectedCart.Id);
+        expectedCart.Should().NotBeNull();
+        expectedCart.Should().BeOfType<CartDTO>();
+        expectedCart.Id.Should().Be(cart.Id);
     }
 
     [Fact]
@@ -107,10 +109,10 @@ public class CartServiceTests
         _cartRepository.FirstOrDefaultAsync(Arg.Any<CartByIdSpec>()).Returns(cart);
 
         var expectedItem = await _cartService.AddCartItem(request);
-        
-        Assert.NotNull(expectedItem);
-        Assert.IsType<CartItemDTO>(expectedItem);
-        Assert.Equal(request.ProductId, expectedItem.ProductId);
+
+        expectedItem.Should().NotBeNull();
+        expectedItem.Should().BeOfType<CartItemDTO>();
+        expectedItem.ProductId.Should().Be(request.ProductId);
     }
 
     [Fact]
@@ -123,7 +125,8 @@ public class CartServiceTests
         
         _cartRepository.FirstOrDefaultAsync(Arg.Any<CartByIdSpec>()).Returns(cart);
 
-        await Assert.ThrowsAsync<ProductAlreadyInCartException>(() => _cartService.AddCartItem(request));
+        await _cartService.Invoking(service => service.AddCartItem(request)).Should()
+            .ThrowAsync<ProductAlreadyInCartException>();
     }
 
     [Fact]
@@ -137,11 +140,11 @@ public class CartServiceTests
         _cartRepository.FirstOrDefaultAsync(Arg.Any<CartByIdSpec>()).Returns(cart);
 
         var expectedItem = await _cartService.UpdateCartItem(request);
-        
-        Assert.NotNull(expectedItem);
-        Assert.IsType<CartItemDTO>(expectedItem);
-        Assert.Equal(request.ItemId, expectedItem.Id);
-        Assert.Equal(request.Quantity, expectedItem.Quantity);
+
+        expectedItem.Should().NotBeNull();
+        expectedItem.Should().BeOfType<CartItemDTO>();
+        expectedItem.Id.Should().Be(request.ItemId);
+        expectedItem.Quantity.Should().Be(request.Quantity);
     }
 
     [Fact]
@@ -154,8 +157,8 @@ public class CartServiceTests
         
         _cartRepository.FirstOrDefaultAsync(Arg.Any<CartByIdSpec>()).Returns(cart);
 
-        await Assert.ThrowsAsync<CartItemNotFoundException>(() => _cartService.UpdateCartItem(request));
-
+        await _cartService.Invoking(service => service.UpdateCartItem(request)).Should()
+            .ThrowAsync<CartItemNotFoundException>();
     }
 
     [Fact]
@@ -169,8 +172,8 @@ public class CartServiceTests
         _cartRepository.FirstOrDefaultAsync(Arg.Any<CartByIdSpec>()).Returns(cart);
 
         await _cartService.RemoveCartItem(itemId);
-        
-        Assert.Empty(cart.Items);
+
+        cart.Items.Should().BeEmpty();
     }
     
     [Fact]
@@ -184,6 +187,6 @@ public class CartServiceTests
 
         await _cartService.ClearCart();
         
-        Assert.Empty(cart.Items);
+        cart.Items.Should().BeEmpty();
     }
 }
