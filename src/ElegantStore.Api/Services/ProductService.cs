@@ -1,31 +1,27 @@
-using Ardalis.GuardClauses;
-using AutoMapper;
 using ElegantStore.Api.DTOs;
 using ElegantStore.Api.Exceptions;
 using ElegantStore.Domain.Entities.Aggregates.ProductAggregate;
 using ElegantStore.Domain.Interfaces;
 using ElegantStore.Domain.Specifications;
+using Mapster;
 
 namespace ElegantStore.Api.Services;
 
 public class ProductService : IProductService
 {
     private readonly IRepository<Product> _productRepository;
-    private readonly IMapper _mapper;
 
     public ProductService(
-        IRepository<Product> productRepository,
-        IMapper mapper)
+        IRepository<Product> productRepository)
     {
         _productRepository = productRepository;
-        _mapper = mapper;
     }
     
     public async Task<ICollection<ProductDTO>> GetProductsAsync()
     {
         var products = await _productRepository.ListAsync();
 
-        return _mapper.Map<ICollection<Product>, ICollection<ProductDTO>>(products);
+        return products.Adapt<ICollection<ProductDTO>>();
     }
 
     public async Task<ProductFullDTO> GetProductWithColorVariantsByIdAsync(int productId)
@@ -37,8 +33,10 @@ public class ProductService : IProductService
         {
             throw new ProductNotFoundException(productId);
         }
+        
+        
 
-        return _mapper.Map<Product, ProductFullDTO>(product);
+        return product.Adapt<ProductFullDTO>();
     }
 
     public async Task<ICollection<ProductDTO>> GetProductsPagedAsync(int page, int pageSize)
@@ -46,6 +44,6 @@ public class ProductService : IProductService
         var spec = new ProductsPagedSpec(page, pageSize);
         var products = await _productRepository.ListAsync(spec);
 
-        return _mapper.Map<ICollection<Product>, ICollection<ProductDTO>>(products);
+        return products.Adapt<ICollection<ProductDTO>>();
     }
 }

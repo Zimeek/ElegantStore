@@ -1,26 +1,23 @@
-using AutoMapper;
 using ElegantStore.Api.DTOs;
 using ElegantStore.Api.Exceptions;
 using ElegantStore.Api.Requests;
 using ElegantStore.Domain.Entities.Aggregates.CartAggregate;
 using ElegantStore.Domain.Interfaces;
 using ElegantStore.Domain.Specifications;
+using Mapster;
 
 namespace ElegantStore.Api.Services;
 
 public class CartService : ICartService
 {
     private readonly IRepository<Cart> _cartRepository;
-    private readonly IMapper _mapper;
     private readonly IHttpContextAccessor _httpContextAccessor;
 
     public CartService(
         IRepository<Cart> cartRepository,
-        IMapper mapper,
         IHttpContextAccessor httpContextAccessor)
     {
         _cartRepository = cartRepository;
-        _mapper = mapper;
         _httpContextAccessor = httpContextAccessor;
     }
 
@@ -46,7 +43,7 @@ public class CartService : ICartService
     {
         var cart = await GetCart();
 
-        return _mapper.Map<Cart, CartDTO>(cart);
+        return cart.Adapt<CartDTO>();
     }
     
 
@@ -63,7 +60,7 @@ public class CartService : ICartService
 
         await _cartRepository.UpdateAsync(cart);
 
-        return _mapper.Map<CartItem, CartItemDTO>(item);
+        return item.Adapt<CartItemDTO>();
     }
 
     public async Task<CartItemDTO> UpdateCartItem(UpdateCartItemRequest request)
@@ -78,8 +75,7 @@ public class CartService : ICartService
 
         await _cartRepository.UpdateAsync(cart);
 
-        return _mapper.Map<CartItem, CartItemDTO>(item);
-
+        return item.Adapt<CartItemDTO>();
     }
 
     public async Task RemoveCartItem(string itemId)

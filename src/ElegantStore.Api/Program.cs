@@ -12,7 +12,7 @@ builder.Services.AddControllers()
 
 builder.Services.AddDbContext(builder.Configuration);
 builder.Services.AddServices();
-builder.Services.AddAutoMapper();
+builder.Services.AddMapster();
 
 var app = builder.Build();
 

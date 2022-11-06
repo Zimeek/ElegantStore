@@ -1,8 +1,12 @@
+using System.Reflection;
+using ElegantStore.Api.DTOs;
 using ElegantStore.Api.Middlewares;
 using ElegantStore.Api.Services;
+using ElegantStore.Domain.Entities.Aggregates.ProductAggregate;
 using ElegantStore.Domain.Interfaces;
 using ElegantStore.Infrastructure.Data;
 using ElegantStore.Infrastructure.Data.Repositories;
+using Mapster;
 using Microsoft.EntityFrameworkCore;
 
 namespace ElegantStore.Api.Extensions;
@@ -27,11 +31,11 @@ public static class ServiceCollectionExtensions
         
         return services;
     }
-    
-    public static IServiceCollection AddAutoMapper(this IServiceCollection services)
-    {
-        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+    public static IServiceCollection AddMapster(this IServiceCollection services)
+    {
+        TypeAdapterConfig.GlobalSettings.Scan(AppDomain.CurrentDomain.GetAssemblies());
+        
         return services;
     }
 }
