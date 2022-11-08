@@ -8,12 +8,13 @@ public class Product : BaseEntity<int>, IAggregateRoot
 {
     private Product() { }
 
-    public Product(int id, string brand, string model, string color, string imageBase, decimal price)
+    public Product(int id, string brand, string model, string color, string gender, string imageBase, decimal price)
     {
         Guard.Against.NegativeOrZero(id, nameof(id));
         Guard.Against.NullOrWhiteSpace(brand, nameof(brand));
         Guard.Against.NullOrWhiteSpace(model, nameof(model));
         Guard.Against.NullOrWhiteSpace(color, nameof(color));
+        Guard.Against.NullOrWhiteSpace(gender, nameof(gender));
         Guard.Against.NullOrWhiteSpace(imageBase, nameof(imageBase));
         Guard.Against.NegativeOrZero(price, nameof(price));
 
@@ -21,6 +22,7 @@ public class Product : BaseEntity<int>, IAggregateRoot
         Brand = brand;
         Model = model;
         Color = color;
+        Gender = gender;
         ImageBase = imageBase;
         Price = price;
 
@@ -29,8 +31,9 @@ public class Product : BaseEntity<int>, IAggregateRoot
     public string Brand { get; private set; }
     public string Model { get; private set; }
     public string Color { get; private set; }
+    public string Gender { get; private set; }
     public string ImageBase { get; private set; }
     public decimal Price { get; private set; }
-    public ICollection<ProductColor> ColorVariants { get; private set; } = new List<ProductColor>();
+    public ICollection<ProductVariant> Variants { get; private set; } = new List<ProductVariant>();
     public ICollection<CartItem> CartItems { get; private set; }
 }

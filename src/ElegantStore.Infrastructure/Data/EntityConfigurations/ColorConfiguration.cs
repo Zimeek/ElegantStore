@@ -11,6 +11,7 @@ public class ColorConfiguration : IEntityTypeConfiguration<Color>
         builder.HasKey(color => color.Id);
         builder.Property(color => color.Id)
             .ValueGeneratedNever();
+        
         builder.ToTable("Colors");
     }
 }

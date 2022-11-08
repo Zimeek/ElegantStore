@@ -24,6 +24,7 @@ namespace ElegantStore.Infrastructure.Migrations
             modelBuilder.Entity("ElegantStore.Domain.Entities.Aggregates.CartAggregate.Cart", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -34,6 +35,7 @@ namespace ElegantStore.Infrastructure.Migrations
             modelBuilder.Entity("ElegantStore.Domain.Entities.Aggregates.CartAggregate.CartItem", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CartId")
@@ -68,6 +70,10 @@ namespace ElegantStore.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ImageBase")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -84,7 +90,7 @@ namespace ElegantStore.Infrastructure.Migrations
                     b.ToTable("Products", (string)null);
                 });
 
-            modelBuilder.Entity("ElegantStore.Domain.Entities.Aggregates.ProductAggregate.ProductColor", b =>
+            modelBuilder.Entity("ElegantStore.Domain.Entities.Aggregates.ProductAggregate.ProductVariant", b =>
                 {
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
@@ -132,16 +138,16 @@ namespace ElegantStore.Infrastructure.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("ElegantStore.Domain.Entities.Aggregates.ProductAggregate.ProductColor", b =>
+            modelBuilder.Entity("ElegantStore.Domain.Entities.Aggregates.ProductAggregate.ProductVariant", b =>
                 {
                     b.HasOne("ElegantStore.Domain.Entities.Color", "Color")
-                        .WithMany("ProductColors")
+                        .WithMany("ProductVariants")
                         .HasForeignKey("ColorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ElegantStore.Domain.Entities.Aggregates.ProductAggregate.Product", "Product")
-                        .WithMany("ColorVariants")
+                        .WithMany("Variants")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -160,12 +166,12 @@ namespace ElegantStore.Infrastructure.Migrations
                 {
                     b.Navigation("CartItems");
 
-                    b.Navigation("ColorVariants");
+                    b.Navigation("Variants");
                 });
 
             modelBuilder.Entity("ElegantStore.Domain.Entities.Color", b =>
                 {
-                    b.Navigation("ProductColors");
+                    b.Navigation("ProductVariants");
                 });
 #pragma warning restore 612, 618
         }

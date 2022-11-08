@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ElegantStore.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221101163544_AnotherProductUpdate")]
-    partial class AnotherProductUpdate
+    [Migration("20221108141400_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -22,6 +22,42 @@ namespace ElegantStore.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("ElegantStore.Domain.Entities.Aggregates.CartAggregate.Cart", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Carts", (string)null);
+                });
+
+            modelBuilder.Entity("ElegantStore.Domain.Entities.Aggregates.CartAggregate.CartItem", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CartId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CartId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("CartItems", (string)null);
+                });
 
             modelBuilder.Entity("ElegantStore.Domain.Entities.Aggregates.ProductAggregate.Product", b =>
                 {
@@ -33,6 +69,10 @@ namespace ElegantStore.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Color")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Gender")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -52,7 +92,7 @@ namespace ElegantStore.Infrastructure.Migrations
                     b.ToTable("Products", (string)null);
                 });
 
-            modelBuilder.Entity("ElegantStore.Domain.Entities.Aggregates.ProductAggregate.ProductColor", b =>
+            modelBuilder.Entity("ElegantStore.Domain.Entities.Aggregates.ProductAggregate.ProductVariant", b =>
                 {
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
@@ -81,16 +121,35 @@ namespace ElegantStore.Infrastructure.Migrations
                     b.ToTable("Colors", (string)null);
                 });
 
-            modelBuilder.Entity("ElegantStore.Domain.Entities.Aggregates.ProductAggregate.ProductColor", b =>
+            modelBuilder.Entity("ElegantStore.Domain.Entities.Aggregates.CartAggregate.CartItem", b =>
+                {
+                    b.HasOne("ElegantStore.Domain.Entities.Aggregates.CartAggregate.Cart", "Cart")
+                        .WithMany("Items")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ElegantStore.Domain.Entities.Aggregates.ProductAggregate.Product", "Product")
+                        .WithMany("CartItems")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("ElegantStore.Domain.Entities.Aggregates.ProductAggregate.ProductVariant", b =>
                 {
                     b.HasOne("ElegantStore.Domain.Entities.Color", "Color")
-                        .WithMany("ProductColors")
+                        .WithMany("ProductVariants")
                         .HasForeignKey("ColorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ElegantStore.Domain.Entities.Aggregates.ProductAggregate.Product", "Product")
-                        .WithMany("ColorVariants")
+                        .WithMany("Variants")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -100,14 +159,21 @@ namespace ElegantStore.Infrastructure.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("ElegantStore.Domain.Entities.Aggregates.CartAggregate.Cart", b =>
+                {
+                    b.Navigation("Items");
+                });
+
             modelBuilder.Entity("ElegantStore.Domain.Entities.Aggregates.ProductAggregate.Product", b =>
                 {
-                    b.Navigation("ColorVariants");
+                    b.Navigation("CartItems");
+
+                    b.Navigation("Variants");
                 });
 
             modelBuilder.Entity("ElegantStore.Domain.Entities.Color", b =>
                 {
-                    b.Navigation("ProductColors");
+                    b.Navigation("ProductVariants");
                 });
 #pragma warning restore 612, 618
         }

@@ -2,11 +2,11 @@ using Ardalis.GuardClauses;
 
 namespace ElegantStore.Domain.Entities.Aggregates.ProductAggregate;
 
-public class ProductColor
+public class ProductVariant
 {
-    private ProductColor() { }
+    private ProductVariant() { }
 
-    public ProductColor(int productId, int colorId)
+    public ProductVariant(int productId, int colorId)
     {
         Guard.Against.NegativeOrZero(productId, nameof(productId));
         Guard.Against.NegativeOrZero(colorId, nameof(colorId));

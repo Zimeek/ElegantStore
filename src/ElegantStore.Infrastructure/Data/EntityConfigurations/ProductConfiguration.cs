@@ -15,7 +15,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.HasMany(product => product.CartItems)
             .WithOne(cartItem => cartItem.Product)
             .HasForeignKey(cartItem => cartItem.ProductId);
-        
+
         builder.ToTable("Products");
     }
 }

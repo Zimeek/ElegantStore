@@ -1,5 +1,6 @@
 using ElegantStore.Domain.Entities;
 using ElegantStore.Domain.Entities.Aggregates.ProductAggregate;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace ElegantStore.Infrastructure.Data;
@@ -13,37 +14,37 @@ public static class ApplicationDbContextSeeder
             await dbContext.Database.MigrateAsync();
         }
 
-        if (!await dbContext.Colors.AnyAsync())
+        if (!dbContext.Colors.Any())
         {
-            var colors = new[]
+            var colors = new List<Color>
             {
-                new Color(1, "blue"),
-                new Color(2, "red")
+                new (1, "blue"),
+                new (2, "red")
             };
 
-            await dbContext.Colors.AddRangeAsync(colors);
+            dbContext.Colors.AddRange(colors);
         }
 
-        if (!await dbContext.Products.AnyAsync())
+        if (!dbContext.Products.Any())
         {
-            var products = new[]
+            var products = new List<Product>()
             {
-                new Product(1, "Nike", "Air Max", "blue", "test", 999M),
-                new Product(2, "Adidas", "Superstar", "red", "test", 499M)
+                new (1, "Nike", "Air Max", "blue", "men", "test", 999M),
+                new (2, "Adidas", "Superstar", "red", "men", "test", 499M)
             };
-
-            await dbContext.Products.AddRangeAsync(products);
+        
+            dbContext.Products.AddRange(products);
         }
 
-        if (!await dbContext.ProductColors.AnyAsync())
+        if (!dbContext.ProductVariants.Any())
         {
-            var productColors = new[]
+            var productColors = new List<ProductVariant>()
             {
-                new ProductColor(1, 1),
-                new ProductColor(2, 2)
+                new (1, 1),
+                new (2, 2)
             };
-
-            await dbContext.ProductColors.AddRangeAsync(productColors);
+        
+            dbContext.ProductVariants.AddRange(productColors);
         }
 
         await dbContext.SaveChangesAsync();

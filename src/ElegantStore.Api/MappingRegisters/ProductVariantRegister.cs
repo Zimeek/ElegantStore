@@ -4,11 +4,11 @@ using Mapster;
 
 namespace ElegantStore.Api.MappingRegisters;
 
-public class ProductColorRegister : IRegister
+public class ProductVariantRegister : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
-        config.NewConfig<ProductColor, ProductColorDTO>()
+        config.NewConfig<ProductVariant, ProductVariantDTO>()
             .Map(dest => dest.Name, src => src.Color.Name);
     }
 }

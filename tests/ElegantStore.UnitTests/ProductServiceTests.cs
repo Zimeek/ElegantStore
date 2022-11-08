@@ -22,15 +22,15 @@ public class ProductServiceTests
 
     private Product GetProduct()
     {
-        return new Product(3, "Adidas", "Superstars", "blue", "image_base", 10M);
+        return new Product(3, "Adidas", "Superstars", "blue", "men", "image_base", 10M);
     }
 
     private List<Product> GetProductList()
     {
         return new List<Product>()
         {
-            new Product(1, "Adidas", "Superstar", "blue", "image_base", 20M),
-            new Product(2, "Adidas", "Superstar", "blue", "image_base", 20M),
+            new Product(1, "Adidas", "Superstar", "blue", "men", "image_base", 20M),
+            new Product(2, "Adidas", "Superstar", "blue", "men", "image_base", 20M),
         };
     }
 

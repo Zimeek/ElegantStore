@@ -1,6 +1,6 @@
 namespace ElegantStore.Api.DTOs;
 
-public record ProductColorDTO
+public record ProductVariantDTO
 {
     public string Name { get; init; }
 }

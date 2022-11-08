@@ -8,7 +8,7 @@ public class ProductWithColorVariantsByIdSpec : Specification<Product>, ISingleR
     public ProductWithColorVariantsByIdSpec(int productId)
     {
         Query
-            .Include(product => product.ColorVariants)
+            .Include(product => product.Variants)
             .ThenInclude(colorVariants => colorVariants.Color)
             .Where(product => product.Id == productId);
     }

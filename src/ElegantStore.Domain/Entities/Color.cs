@@ -17,5 +17,5 @@ public class Color : BaseEntity<int>
     }
     
     public string Name { get; private set; }
-    public ICollection<ProductColor> ProductColors { get; private set; }
+    public ICollection<ProductVariant> ProductVariants { get; private set; }
 }
