@@ -8,5 +8,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="src\app\shared\components" />
+    <Folder Include="src\assets\images\men" />
   </ItemGroup>
 </Project>
