@@ -34,14 +34,20 @@ public class ProductService : IProductService
             throw new ProductNotFoundException(productId);
         }
         
-        
-
         return product.Adapt<ProductFullDTO>();
     }
 
     public async Task<ICollection<ProductDTO>> GetProductsPagedAsync(int page, int pageSize)
     {
         var spec = new ProductsPagedSpec(page, pageSize);
+        var products = await _productRepository.ListAsync(spec);
+
+        return products.Adapt<ICollection<ProductDTO>>();
+    }
+
+    public async Task<ICollection<ProductDTO>> GetFeaturedProductsAsync()
+    {
+        var spec = new FeaturedProductsSpec();
         var products = await _productRepository.ListAsync(spec);
 
         return products.Adapt<ICollection<ProductDTO>>();

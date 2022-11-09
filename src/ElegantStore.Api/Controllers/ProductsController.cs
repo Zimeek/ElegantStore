@@ -31,4 +31,10 @@ public class ProductsController : ControllerBase
     {
         return Ok(await _productService.GetProductWithColorVariantsByIdAsync(productId));
     }
+
+    [HttpGet("Featured")]
+    public async Task<IActionResult> GetFeaturedProductsAsync()
+    {
+        return Ok(await _productService.GetFeaturedProductsAsync());
+    }
 }
