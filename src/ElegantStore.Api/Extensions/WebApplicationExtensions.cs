@@ -14,4 +14,11 @@ public static class WebApplicationExtensions
 
         return app;
     }
+
+    public static WebApplication UseCustomCors(this WebApplication app)
+    {
+        app.UseCors("_localorigin");
+
+        return app;
+    }
 }
