@@ -1,0 +1,47 @@
+<div class="mx-auto max-w-2xl py-8 px-4 sm:py-10 sm:px-6 lg:max-w-7xl lg:px-8" *ngIf="product$ | async as product">
+  <nav class="flex pb-5 text-sm sm:text-lg">
+    <span>Home</span>
+    <span class="mx-2">/</span>
+    <span class="capitalize">{{product.gender}}</span>
+    <span class="mx-2">/</span>
+    <span class="capitalize">{{product.brand}} {{product.model}}</span>
+  </nav>
+  <div class="grid auto-cols-max grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-8">
+    <div class="w-full h-90 overflow-hidden rounded-md bg-gray-200">
+      <img src="./assets/images/{{product.gender}}/{{product.imageBase}}{{product.color}}.webp" alt="" class="h-full w-full object-cover object-center" *ngIf="selectedVariant === undefined">
+      <img src="./assets/images/{{product.gender}}/{{product.imageBase}}{{selectedVariant}}.webp" alt="" class="h-full w-full object-cover object-center" *ngIf="selectedVariant != undefined">
+    </div>
+    <div>
+      <h1 class="text-2xl sm:text-4xl font-thin capitalize">{{product.brand}}</h1>
+      <h1 class="text-2xl sm:text-4xl mt-2 capitalize">{{product.model}}</h1>
+      <h1 class="text-2xl sm:text-4xl mt-5">${{product.price}}</h1>
+      <div class="py-10 sm:py-15">
+        <h1 class="text-xl mb-5" *ngIf="selectedVariant === undefined">Color: {{product.color}}</h1>
+        <h1 class="text-xl mb-5" *ngIf="selectedVariant != undefined">Color: {{selectedVariant}}</h1>
+        <div class="flex">
+          <div class="mr-5">
+            <input type="radio" name="variant-option" id="variant-{{product.color}}" class="peer hidden" checked>
+            <label for="variant-{{product.color}}" class="block cursor-pointer peer-checked:border-cyan-900 peer-checked:border rounded-md" (click)="selectVariant(product.color)">
+              <img class="object-cover h-36 w-full rounded-md" src="./assets/images/{{product.gender}}/{{product.imageBase}}{{product.color}}.webp" alt="{{product.color}}">
+            </label>
+          </div>
+          <div class="mr-5" *ngFor="let variant of product.variants">
+            <input type="radio" name="variant-option" id="variant-{{variant.name}}" class="peer hidden">
+            <label for="variant-{{variant.name}}" class="block cursor-pointer peer-checked:border-cyan-900 peer-checked:border rounded-md" (click)="selectVariant(variant.name)">
+              <img class="object-cover h-36 w-full rounded-md" src="./assets/images/{{product.gender}}/{{product.imageBase}}{{variant.name}}.webp" alt="{{variant.name}}">
+            </label>
+          </div>
+
+        </div>
+      </div>
+      <div>
+        <button type="submit" class="bg-cyan-900 hover:bg-cyan-800 text-gray-300 text-xl py-2 px-3 rounded-md inline-flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+          </svg>
+          <span class="ml-3">Add to cart</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
