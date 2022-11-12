@@ -3,11 +3,12 @@ import { Observable } from "rxjs";
 import { Product } from "../../../../core/models/product";
 import { ProductService } from "../../../../core/services/product.service";
 import { CommonModule } from "@angular/common";
+import {RouterModule} from "@angular/router";
 
 @Component({
   selector: 'app-featured-product-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './featured-product-list.component.html',
   styleUrls: ['./featured-product-list.component.css']
 })
