@@ -39,7 +39,7 @@ public class CartServiceTests
             Id = Guid.NewGuid().ToString()
         };
         
-        var item = new CartItem(cart.Id, 1, 1);
+        var item = new CartItem(cart.Id, 1, 1, "black");
         item.Id = "6c77c52c-c94d-4c3d-87bd-31e6b919dda2";
         
         cart.Items.Add(item);
@@ -52,7 +52,7 @@ public class CartServiceTests
         return new AddCartItemRequest()
         {
             ProductId = 1,
-            Quantity = 1
+            Color = "black"
         };
     }
 
@@ -60,8 +60,7 @@ public class CartServiceTests
     {
         return new UpdateCartItemRequest()
         {
-            ItemId = "6c77c52c-c94d-4c3d-87bd-31e6b919dda2",
-            Quantity = 1
+            ItemId = "6c77c52c-c94d-4c3d-87bd-31e6b919dda2"
         };
     }
 
@@ -144,7 +143,6 @@ public class CartServiceTests
         expectedItem.Should().NotBeNull();
         expectedItem.Should().BeOfType<CartItemDTO>();
         expectedItem.Id.Should().Be(request.ItemId);
-        expectedItem.Quantity.Should().Be(request.Quantity);
     }
 
     [Fact]
