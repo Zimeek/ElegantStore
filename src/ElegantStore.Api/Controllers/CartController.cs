@@ -33,7 +33,7 @@ public class CartController : ControllerBase
         return Ok(await _cartService.UpdateCartItem(request));
     }
 
-    [HttpPut("{itemId:guid}")]
+    [HttpDelete("{itemId:guid}")]
     public async Task<IActionResult> RemoveCartItemAsync(string itemId)
     {
         await _cartService.RemoveCartItem(itemId);
