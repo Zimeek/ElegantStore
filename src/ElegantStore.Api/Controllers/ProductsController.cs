@@ -16,11 +16,11 @@ public class ProductsController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<IActionResult> GetProductsAsync([FromQuery] int? page, [FromQuery] int? pageSize)
+    public async Task<IActionResult> GetProductsAsync([FromQuery] int? page, [FromQuery] int? pageSize, [FromQuery] string? gender)
     {
-        if (page is not null && pageSize is not null)
+        if (page is not null && pageSize is not null && gender is not null)
         {
-            return Ok(await _productService.GetProductsPagedAsync((int)page, (int)pageSize));
+            return Ok(await _productService.GetProductsPagedAsync((int)page, (int)pageSize, gender));
         }
         
         return Ok(await _productService.GetProductsAsync());

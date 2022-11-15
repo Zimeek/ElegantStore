@@ -37,9 +37,9 @@ public class ProductService : IProductService
         return product.Adapt<ProductFullDTO>();
     }
 
-    public async Task<ICollection<ProductDTO>> GetProductsPagedAsync(int page, int pageSize)
+    public async Task<ICollection<ProductDTO>> GetProductsPagedAsync(int page, int pageSize, string gender)
     {
-        var spec = new ProductsPagedSpec(page, pageSize);
+        var spec = new ProductsPagedSpec(page, pageSize, gender);
         var products = await _productRepository.ListAsync(spec);
 
         return products.Adapt<ICollection<ProductDTO>>();
