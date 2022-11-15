@@ -11,6 +11,10 @@ const routes: Routes = [
   {
     path: 'product/:id',
     loadComponent: () => import('./features/product/product.component').then(c => c.ProductComponent)
+  },
+  {
+    path: 'products/:gender',
+    loadComponent: () => import('./features/products/products.component').then(c => c.ProductsComponent)
   }
 ]
 
