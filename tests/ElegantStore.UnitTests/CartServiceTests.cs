@@ -39,7 +39,7 @@ public class CartServiceTests
             Id = Guid.NewGuid().ToString()
         };
         
-        var item = new CartItem(cart.Id, 1, 1, "black");
+        var item = new CartItem(cart.Id, 1, 1, 20M, "black");
         item.Id = "6c77c52c-c94d-4c3d-87bd-31e6b919dda2";
         
         cart.Items.Add(item);

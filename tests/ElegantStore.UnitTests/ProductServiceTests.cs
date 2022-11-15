@@ -66,7 +66,7 @@ public class ProductServiceTests
         
         _productRepository.ListAsync(Arg.Any<ProductsPagedSpec>()).Returns(products);
 
-        var expectedProducts = await _productService.GetProductsPagedAsync(1, 2);
+        var expectedProducts = await _productService.GetProductsPagedAsync(1, 2, "men");
 
         expectedProducts.Should().NotBeEmpty();
         expectedProducts.Count.Should().Be(products.Count);
