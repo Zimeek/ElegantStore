@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using ElegantStore.Domain.Interfaces;
 
 namespace ElegantStore.Domain.Entities.Aggregates.CartAggregate;
@@ -12,16 +13,13 @@ public class Cart : BaseEntity<string>, IAggregateRoot
 
     public ICollection<CartItem> Items { get; private set; } = new List<CartItem>();
 
-    public CartItem? AddItem(int productId, int quantity)
+    public CartItem AddItem(int productId, decimal price, string color)
     {
-        if (!Items.Any(item => item.ProductId == productId))
-        {
-            var item = new CartItem(Id, productId, quantity);
-            Items.Add(item);
-            return item;
-        }
+        
+        var item = new CartItem(Id, productId, 1, price, color);
+        Items.Add(item);
 
-        return null;
+        return item;
     }
 
     public CartItem? UpdateItem(string itemId, int quantity)
@@ -30,7 +28,7 @@ public class Cart : BaseEntity<string>, IAggregateRoot
         
         if (item is not null)
         {
-            item.SetQuantity(quantity);
+            item.UpdateQuantity(quantity);
             return item;
         }
 

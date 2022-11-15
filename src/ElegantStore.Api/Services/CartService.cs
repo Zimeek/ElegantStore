@@ -51,12 +51,7 @@ public class CartService : ICartService
     {
         var cart = await GetCart();
 
-        var item = cart.AddItem(request.ProductId, request.Quantity);
-
-        if (item is null)
-        {
-            throw new ProductAlreadyInCartException(request.ProductId);
-        }
+        var item = cart.AddItem(request.ProductId, request.Price, request.Color);
 
         await _cartRepository.UpdateAsync(cart);
 
