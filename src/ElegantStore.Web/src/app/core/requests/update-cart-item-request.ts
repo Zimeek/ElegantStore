@@ -1,3 +1,4 @@
 export interface UpdateCartItemRequest {
-  itemId: string
+  itemId: string,
+  quantity: number
 }
