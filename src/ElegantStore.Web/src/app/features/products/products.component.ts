@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import {CommonModule} from "@angular/common";
-import {ActivatedRoute, ParamMap, RouterModule} from "@angular/router";
+import {ActivatedRoute, ParamMap} from "@angular/router";
 import {BehaviorSubject, combineLatestWith, map, filter, Observable, switchMap} from "rxjs";
 import {Product} from "../../core/models/product";
 import {ProductService} from "../../core/services/product.service";
+import {ProductItemComponent} from "./components/product-item/product-item.component";
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, ProductItemComponent],
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css']
 })
