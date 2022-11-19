@@ -1,0 +1,36 @@
+<div class="mx-auto max-w-2xl py-8 px-4 sm:py-10 sm:px-6 lg:max-w-7xl lg:px-8">
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+    <div class="p-4">
+      <app-shipping-information-form></app-shipping-information-form>
+      <hr class="my-10">
+      <app-contact-information-form></app-contact-information-form>
+      <hr class="my-10">
+      <app-payment-form></app-payment-form>
+    </div>
+    <div class="rounded-sm p-4">
+      <h1 class="text-2xl">Order summary</h1>
+      <ul *ngIf="cartItems$ | async as items">
+        <app-checkout-item [item]="item" *ngFor="let item of items"></app-checkout-item>
+      </ul>
+      <hr class="my-10">
+      <ul *ngIf="cartTotal$ | async as total">
+        <li class="flex justify-between">
+          <span>Subtotal</span>
+          <span>${{total}}</span>
+        </li>
+        <li class="flex justify-between mt-3">
+          <span>Shipping</span>
+          <span>$0.00</span>
+        </li>
+        <hr class="my-5">
+        <li class="flex justify-between">
+          <span class="font-medium">Total</span>
+          <span class="font-medium">${{total}}</span>
+        </li>
+      </ul>
+      <div class="mt-10 flex justify-center">
+        <button class="bg-cyan-900 hover:bg-cyan-800 text-white text-xl py-2 px-3 rounded-md w-1/2">Confirm order</button>
+      </div>
+    </div>
+  </div>
+</div>

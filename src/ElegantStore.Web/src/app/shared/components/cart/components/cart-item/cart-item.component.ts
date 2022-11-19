@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CartItem} from "../../../../../core/models/cart-item";
 import {ProductService} from "../../../../../core/services/product.service";
-import {delay, Observable} from "rxjs";
+import {Observable} from "rxjs";
 import {Product} from "../../../../../core/models/product";
 import {UpdateCartItemRequest} from "../../../../../core/requests/update-cart-item-request";
 

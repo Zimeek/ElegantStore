@@ -1,0 +1,47 @@
+<h1 class="text-2xl mb-4">Shipping information</h1>
+<form class="grid grid-cols-1 sm:grid-cols-4 gap-3" [formGroup]="shippingForm" #form="ngForm">
+  <label class="sm:col-span-2" for="firstName">
+    <span class="font-medium">First name</span>
+    <input type="text" class="border focus:border-gray-400 border-gray-300 w-full p-1 mt-1 rounded-md focus:outline-none" id="firstName" formControlName="firstName">
+    <span class="text-red-800 font-small" *ngIf="shippingForm.controls.firstName.invalid && (form.submitted || shippingForm.controls.firstName.dirty)">Enter first name</span>
+  </label>
+  <label class="sm:col-span-2" for="lastName">
+    <span class="font-medium">Last name</span>
+    <input type="text" class="border focus:border-gray-400 border-gray-300 w-full p-1 mt-1 rounded-md focus:outline-none" id="lastName" formControlName="lastName">
+    <span class="text-red-800 font-small" *ngIf="shippingForm.controls.lastName.invalid && (form.submitted || shippingForm.controls.lastName.dirty)">Enter last name</span>
+  </label>
+  <label class="sm:col-span-3" for="address">
+    <span class="font-medium">Address</span>
+    <input type="text" class="border focus:border-gray-400 border-gray-300 w-full p-1 mt-1 rounded-md focus:outline-none" id="address" formControlName="address">
+    <span class="text-red-800 font-small" *ngIf="shippingForm.controls.address.invalid && (form.submitted || shippingForm.controls.address.dirty)">Enter addres</span>
+  </label>
+  <label for="apartment">
+    <span class="font-medium">Apartment</span>
+    <input type="text" class="border focus:border-gray-400 border-gray-300 w-full p-1 mt-1 rounded-md focus:outline-none" id="apartment" formControlName="apartment">
+    <span class="text-red-800 font-small" *ngIf="shippingForm.controls.apartment.invalid && (form.submitted || shippingForm.controls.apartment.dirty)">Enter apartment</span>
+  </label>
+  <label class="sm:col-span-2" for="city">
+    <span class="font-medium">City</span>
+    <input type="text" class="border focus:border-gray-400 border-gray-300 w-full p-1 mt-1 rounded-md focus:outline-none" id="city" formControlName="city">
+    <span class="text-red-800 font-small" *ngIf="shippingForm.controls.city.invalid && (form.submitted || shippingForm.controls.city.dirty)">Enter city</span>
+  </label>
+  <label class="sm:col-span-2" for="province">
+    <span class="font-medium">Province</span>
+    <select class="border focus:border-gray-400 border-gray-300 w-full p-1 mt-1 rounded-md focus:outline-none" id="province" formControlName="province">
+      <option>Alberta</option>
+      <option>British Columbia</option>
+      <option>Manitoba</option>
+      <option>New Brunswick</option>
+      <option>Newfoundland and Labrador</option>
+      <option>Northwest Territories</option>
+      <option>Nova Scotia</option>
+      <option>Nunavut</option>
+      <option>Ontario</option>
+      <option>Prince Edward Island</option>
+      <option>Quebec</option>
+      <option>Saskatchewan</option>
+      <option>Yukon</option>
+    </select>
+    <span class="text-red-800 font-small" *ngIf="shippingForm.controls.province.invalid && (form.submitted || shippingForm.controls.province.dirty)">Enter state</span>
+  </label>
+</form>

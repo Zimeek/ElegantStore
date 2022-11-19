@@ -1,0 +1,17 @@
+<li class="flex py-4" *ngIf="product$ | async as product">
+  <div class="h-32 w-28 flex-shrink-0 overflow-hidden aspect-none rounded-md">
+    <img src="./assets/images/{{product.gender}}/{{product.imageBase}}{{item.color}}.webp" alt="" class="h-full w-full object-cover object-center">
+  </div>
+  <div class="ml-4 flex flex-1 flex-col">
+    <div>
+      <div class="flex justify-between text-base font-medium text-gray-900">
+        <h3>
+          <a class="capitalize">{{product.brand}}</a>
+        </h3>
+        <p class="ml-4 text-lg">${{product.price}}</p>
+      </div>
+      <p class="mt-1 text-sm text-gray-500 capitalize">{{product.model}}</p>
+      <p class="text-gray-500 mt-1 text-sm">Qty: {{item.quantity}}</p>
+    </div>
+  </div>
+</li>
