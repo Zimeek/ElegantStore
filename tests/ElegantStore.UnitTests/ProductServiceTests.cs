@@ -72,4 +72,26 @@ public class ProductServiceTests
         expectedProducts.Count.Should().Be(products.Count);
 
     }
+
+    [Fact]
+    public async Task GetProductsCountByGender_ShouldReturnCount_WhenProductsExist()
+    {
+        var products = GetProductList();
+
+        _productRepository.CountAsync(Arg.Any<ProductsCountByGenderSpec>()).Returns(products.Count);
+        
+        var expectedProductsCount = await _productService.GetProductsCountByGenderAsync("men");
+
+        expectedProductsCount.Should().Be(products.Count);
+    }
+
+    [Fact]
+    public async Task GetProductsCountByGender_ShouldReturnZero_WhenProductsDoNotExist()
+    {
+        _productRepository.CountAsync(Arg.Any<ProductsCountByGenderSpec>()).Returns(0);
+        
+        var expectedProductsCount = await _productService.GetProductsCountByGenderAsync("women");
+
+        expectedProductsCount.Should().Be(0);
+    }
 }

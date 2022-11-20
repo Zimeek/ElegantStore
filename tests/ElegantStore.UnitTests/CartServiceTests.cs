@@ -52,6 +52,7 @@ public class CartServiceTests
         return new AddCartItemRequest()
         {
             ProductId = 1,
+            Price = 10M,
             Color = "black"
         };
     }
@@ -112,20 +113,6 @@ public class CartServiceTests
         expectedItem.Should().NotBeNull();
         expectedItem.Should().BeOfType<CartItemDTO>();
         expectedItem.ProductId.Should().Be(request.ProductId);
-    }
-
-    [Fact]
-    public async Task AddCartItem_ShouldThrowException_WhenItemAlreadyInCart()
-    {
-        var cart = GetCart();
-        var request = GetAddCartItemRequest();
-        
-        _httpContextAccessor.HttpContext!.Request.Headers.Add("cartId", cart.Id);
-        
-        _cartRepository.FirstOrDefaultAsync(Arg.Any<CartByIdSpec>()).Returns(cart);
-
-        await _cartService.Invoking(service => service.AddCartItem(request)).Should()
-            .ThrowAsync<ProductAlreadyInCartException>();
     }
 
     [Fact]
