@@ -1,23 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {ActivatedRoute, ParamMap} from "@angular/router";
-import {BehaviorSubject, combineLatestWith, map, filter, Observable, switchMap} from "rxjs";
+import {BehaviorSubject, combineLatestWith, map, Observable, switchMap} from "rxjs";
 import {Product} from "../../core/models/product";
 import {ProductService} from "../../core/services/product.service";
 import {ProductItemComponent} from "./components/product-item/product-item.component";
+import {productsPageSize} from "../../../environments/environment";
 
 @Component({
   selector: 'app-products',
   standalone: true,
   imports: [CommonModule, ProductItemComponent],
   templateUrl: './products.component.html',
-  styleUrls: ['./products.component.css']
+  styleUrls: ['./products.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductsComponent implements OnInit {
   gender$!: Observable<string>;
   products$!: Observable<Product[]>;
   page$ = new BehaviorSubject<number>(1);
-  disableNextPageButton$ = new BehaviorSubject<boolean>(false);
+  productsCount$!: Observable<number>;
+
+  pagesCount!: number;
+  productsPageSize = productsPageSize;
 
   constructor(
     private productService: ProductService,
@@ -31,16 +36,23 @@ export class ProductsComponent implements OnInit {
       .pipe(
         combineLatestWith(this.gender$),
         switchMap(([page, gender]) => {
-          return this.productService.getProductsPaged(page, 5, gender)
-            .pipe(filter(products => {
-              products.length === 0 ? this.disableNextPageButton$.next(true): this.disableNextPageButton$.next(false);
-              return products.length > 0
-            }))
+          return this.productService.getProductsPaged(page, gender)
         }));
+
+    this.productsCount$ = this.gender$
+      .pipe(switchMap(gender => {
+        return this.productService.getProductsCountByGender(gender)
+          .pipe(map(productsCount => {
+            this.pagesCount = productsCount / productsPageSize;
+            return productsCount;
+          }));
+      }));
   }
 
   public nextPage(): void {
-    this.page$.next(this.page$.value + 1);
+    if(this.page$.value < this.pagesCount) {
+      this.page$.next(this.page$.value + 1);
+    }
   }
 
   public previousPage(): void {
@@ -48,5 +60,4 @@ export class ProductsComponent implements OnInit {
       this.page$.next(this.page$.value - 1);
     }
   }
-
 }
