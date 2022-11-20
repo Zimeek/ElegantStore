@@ -15,7 +15,7 @@ import {productsPageSize} from "../../../environments/environment";
   styleUrls: ['./products.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductsComponent implements OnInit {
+export default class ProductsComponent implements OnInit {
   gender$!: Observable<string>;
   products$!: Observable<Product[]>;
   page$ = new BehaviorSubject<number>(1);

@@ -15,7 +15,7 @@ import {AddCartItemRequest} from "../../core/requests/add-cart-item-request";
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css']
 })
-export class ProductComponent extends Unsubscriber implements OnInit {
+export default class ProductComponent extends Unsubscriber implements OnInit {
   product$!:Observable<Product>;
   selectedVariant: string | undefined;
 

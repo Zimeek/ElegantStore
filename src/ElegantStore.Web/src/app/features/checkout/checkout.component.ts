@@ -20,7 +20,7 @@ import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.css']
 })
-export class CheckoutComponent implements OnInit {
+export default class CheckoutComponent implements OnInit {
   cartItems$!: Observable<CartItem[]>;
   cartTotal$!: Observable<number>;
 

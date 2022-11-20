@@ -5,20 +5,20 @@ import {RouterModule, Routes} from "@angular/router";
 const routes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./features/home/home.component').then(c => c.HomeComponent),
+    loadComponent: () => import('./features/home/home.component'),
     title: 'ElegantStore - Home'
   },
   {
     path: 'product/:id',
-    loadComponent: () => import('./features/product/product.component').then(c => c.ProductComponent)
+    loadComponent: () => import('./features/product/product.component')
   },
   {
     path: 'products/:gender',
-    loadComponent: () => import('./features/products/products.component').then(c => c.ProductsComponent)
+    loadComponent: () => import('./features/products/products.component')
   },
   {
     path: 'checkout',
-    loadComponent: () => import('./features/checkout/checkout.component').then(c => c.CheckoutComponent)
+    loadComponent: () => import('./features/checkout/checkout.component')
   }
 ]
 

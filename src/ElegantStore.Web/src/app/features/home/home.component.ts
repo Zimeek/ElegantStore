@@ -14,7 +14,7 @@ import {FeaturedProductListComponent} from "./components/featured-product-list/f
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export default class HomeComponent implements OnInit {
 
   constructor() { }
 
