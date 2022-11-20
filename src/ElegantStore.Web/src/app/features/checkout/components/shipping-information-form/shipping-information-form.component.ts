@@ -1,32 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import {CommonModule} from "@angular/common";
-import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
+import {ControlContainer, FormGroup, FormGroupDirective, ReactiveFormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-shipping-information-form',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './shipping-information-form.component.html',
-  styleUrls: ['./shipping-information-form.component.css']
+  styleUrls: ['./shipping-information-form.component.css'],
+  viewProviders: [{provide: ControlContainer, useExisting: FormGroupDirective}]
 })
 export class ShippingInformationFormComponent implements OnInit {
-  shippingForm = this.formBuilder.group(
-    {
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      address: ['', Validators.required],
-      apartment: ['', Validators.required],
-      city: ['', Validators.required],
-      province: ['', Validators.required]
-    },
-    {
-      updateOn: 'blur'
-    }
-  )
+  shippingForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private parentFormGroup: FormGroupDirective) { }
 
   ngOnInit(): void {
+    this.shippingForm = this.parentFormGroup.control.get('shippingForm') as FormGroup;
 
   }
 

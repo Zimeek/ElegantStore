@@ -3,29 +3,33 @@
   <label class="sm:col-span-2" for="firstName">
     <span class="font-medium">First name</span>
     <input type="text" class="border focus:border-gray-400 border-gray-300 w-full p-1 mt-1 rounded-md focus:outline-none" id="firstName" formControlName="firstName">
-    <span class="text-red-800 font-small" *ngIf="shippingForm.controls.firstName.invalid && (form.submitted || shippingForm.controls.firstName.dirty)">Enter first name</span>
+    <div *ngIf="shippingForm.controls['firstName'].invalid && shippingForm.controls['firstName'].dirty">
+      <span class="text-red-800 font-small" *ngIf="shippingForm.controls['firstName'].errors?.['required']">First name cannot be empty.</span>
+    </div>
   </label>
   <label class="sm:col-span-2" for="lastName">
     <span class="font-medium">Last name</span>
     <input type="text" class="border focus:border-gray-400 border-gray-300 w-full p-1 mt-1 rounded-md focus:outline-none" id="lastName" formControlName="lastName">
-    <span class="text-red-800 font-small" *ngIf="shippingForm.controls.lastName.invalid && (form.submitted || shippingForm.controls.lastName.dirty)">Enter last name</span>
+    <div *ngIf="shippingForm.controls['lastName'].invalid && shippingForm.controls['lastName'].dirty">
+      <span class="text-red-800 font-small" *ngIf="shippingForm.controls['lastName'].errors?.['required']">Last name cannot be empty.</span>
+    </div>
   </label>
-  <label class="sm:col-span-3" for="address">
+  <label class="sm:col-span-2" for="address">
     <span class="font-medium">Address</span>
     <input type="text" class="border focus:border-gray-400 border-gray-300 w-full p-1 mt-1 rounded-md focus:outline-none" id="address" formControlName="address">
-    <span class="text-red-800 font-small" *ngIf="shippingForm.controls.address.invalid && (form.submitted || shippingForm.controls.address.dirty)">Enter addres</span>
-  </label>
-  <label for="apartment">
-    <span class="font-medium">Apartment</span>
-    <input type="text" class="border focus:border-gray-400 border-gray-300 w-full p-1 mt-1 rounded-md focus:outline-none" id="apartment" formControlName="apartment">
-    <span class="text-red-800 font-small" *ngIf="shippingForm.controls.apartment.invalid && (form.submitted || shippingForm.controls.apartment.dirty)">Enter apartment</span>
+    <div *ngIf="shippingForm.controls['firstName'].invalid && shippingForm.controls['address'].dirty">
+      <span class="text-red-800 font-small" *ngIf="shippingForm.controls['address'].errors?.['required']">Address cannot be empty.</span>
+    </div>
   </label>
   <label class="sm:col-span-2" for="city">
     <span class="font-medium">City</span>
     <input type="text" class="border focus:border-gray-400 border-gray-300 w-full p-1 mt-1 rounded-md focus:outline-none" id="city" formControlName="city">
-    <span class="text-red-800 font-small" *ngIf="shippingForm.controls.city.invalid && (form.submitted || shippingForm.controls.city.dirty)">Enter city</span>
+    <div *ngIf="shippingForm.controls['city'].invalid && shippingForm.controls['city'].dirty">
+      <span class="text-red-800 font-small" *ngIf="shippingForm.controls['city'].errors?.['required']">City cannot be empty.</span>
+      <span class="text-red-800 font-small" *ngIf="shippingForm.controls['city'].errors?.['pattern']">City is invalid.</span>
+    </div>
   </label>
-  <label class="sm:col-span-2" for="province">
+  <label class="sm:col-span-3" for="province">
     <span class="font-medium">Province</span>
     <select class="border focus:border-gray-400 border-gray-300 w-full p-1 mt-1 rounded-md focus:outline-none" id="province" formControlName="province">
       <option>Alberta</option>
@@ -42,6 +46,14 @@
       <option>Saskatchewan</option>
       <option>Yukon</option>
     </select>
-    <span class="text-red-800 font-small" *ngIf="shippingForm.controls.province.invalid && (form.submitted || shippingForm.controls.province.dirty)">Enter state</span>
+    <span class="text-red-800 font-small" *ngIf="shippingForm.controls['province'].invalid && (form.submitted || shippingForm.controls['province'].dirty)">Enter state</span>
+  </label>
+  <label  for="postalCode">
+    <span class="font-medium">Postal code</span>
+    <input type="text" class="border focus:border-gray-400 border-gray-300 w-full p-1 mt-1 rounded-md focus:outline-none" id="postalCode" formControlName="postalCode">
+    <div *ngIf="shippingForm.controls['postalCode'].invalid && shippingForm.controls['postalCode'].dirty">
+      <span class="text-red-800 font-small" *ngIf="shippingForm.controls['postalCode'].errors?.['required']">Postal code cannot be empty.</span>
+      <span class="text-red-800 font-small" *ngIf="shippingForm.controls['postalCode'].errors?.['pattern']">Postal code is invalid.</span>
+    </div>
   </label>
 </form>

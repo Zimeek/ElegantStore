@@ -1,11 +1,20 @@
 <h1 class="text-2xl mb-4">Contact information</h1>
-<div class="grid grid-cols-1 gap-3">
-  <label for="email">
+<form class="grid grid-cols-1 gap-3" [formGroup]="contactForm" #form="ngForm">
+  <label for="emailAddress">
     <span class="font-medium">Email address</span>
-    <input type="text" class="border focus:border-gray-400 border-gray-300 w-full p-1 mt-1 rounded-md focus:outline-none" id="email">
+    <input type="text" class="border focus:border-gray-400 border-gray-300 w-full p-1 mt-1 rounded-md focus:outline-none" id="emailAddress" formControlName="emailAddress">
+    <div *ngIf="contactForm.controls['emailAddress'].invalid && contactForm.controls['emailAddress'].dirty">
+      <span class="text-red-800 font-small" *ngIf="contactForm.controls['emailAddress'].errors?.['required']">Email address cannot be empty.</span>
+      <span class="text-red-800 font-small" *ngIf="contactForm.controls['emailAddress'].errors?.['email']">Email address is invalid.</span>
+    </div>
+
   </label>
-  <label for="phone">
+  <label for="phoneNumber">
     <span class="font-medium">Phone number</span>
-    <input type="text" class="border focus:border-gray-400 border-gray-300 w-full p-1 mt-1 rounded-md focus:outline-none" id="phone">
+    <input type="text" class="border focus:border-gray-400 border-gray-300 w-full p-1 mt-1 rounded-md focus:outline-none" id="phoneNumber" formControlName="phoneNumber">
+    <div *ngIf="contactForm.controls['phoneNumber'].invalid && contactForm.controls['phoneNumber'].dirty">
+      <span class="text-red-800 font-small" *ngIf="contactForm.controls['phoneNumber'].errors?.['required']">Phone number cannot be empty.</span>
+      <span class="text-red-800 font-small" *ngIf="contactForm.controls['phoneNumber'].errors?.['pattern']">Phone number is invalid.</span>
+    </div>
   </label>
-</div>
+</form>

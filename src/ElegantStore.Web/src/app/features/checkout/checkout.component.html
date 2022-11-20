@@ -1,11 +1,13 @@
 <div class="mx-auto max-w-2xl py-8 px-4 sm:py-10 sm:px-6 lg:max-w-7xl lg:px-8">
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
     <div class="p-4">
-      <app-shipping-information-form></app-shipping-information-form>
-      <hr class="my-10">
-      <app-contact-information-form></app-contact-information-form>
-      <hr class="my-10">
-      <app-payment-form></app-payment-form>
+      <ng-container [formGroup]="checkoutForm">
+        <app-shipping-information-form></app-shipping-information-form>
+        <hr class="my-10">
+        <app-contact-information-form></app-contact-information-form>
+        <hr class="my-10">
+        <app-payment-form></app-payment-form>
+      </ng-container>
     </div>
     <div class="rounded-sm p-4">
       <h1 class="text-2xl">Order summary</h1>
@@ -29,7 +31,7 @@
         </li>
       </ul>
       <div class="mt-10 flex justify-center">
-        <button class="bg-cyan-900 hover:bg-cyan-800 text-white text-xl py-2 px-3 rounded-md w-1/2">Confirm order</button>
+        <button [disabled]="checkoutForm.invalid" class="disabled:opacity-75 bg-cyan-900 enabled:hover:bg-cyan-800 text-white text-xl py-2 px-3 rounded-md w-1/2">Confirm order</button>
       </div>
     </div>
   </div>
