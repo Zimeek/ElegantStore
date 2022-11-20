@@ -6,7 +6,7 @@ export const environment = {
   production: false
 };
 
-export const productsPageSize = 5;
+export const productsPageSize = 8;
 
 /*
  * For easier debugging in development mode, you can import the following file
