@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject, map, Observable, of} from "rxjs";
 import {Product} from "../models/product";
+import {productsPageSize} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,8 @@ export class ProductService {
     return this.httpClient.get<Product[]>('api/Products/Featured');
   }
 
-  public getProductsPaged(page: number, pageSize: number, gender: string): Observable<Product[]> {
-    return this.httpClient.get<Product[]>(`api/Products?page=${page}&pageSize=${pageSize}&gender=${gender}`);
+  public getProductsPaged(page: number, gender: string): Observable<Product[]> {
+    return this.httpClient.get<Product[]>(`api/Products?page=${page}&pageSize=${productsPageSize}&gender=${gender}`);
   }
 
   public getProductById(id: number): Observable<Product> {
@@ -29,5 +30,9 @@ export class ProductService {
         this.products$.next([...this.products$.value, product]);
         return product;
       }))
+  }
+
+  public getProductsCountByGender(gender: string): Observable<number> {
+    return this.httpClient.get<number>(`api/Products/Count/${gender}`);
   }
 }

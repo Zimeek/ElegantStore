@@ -37,4 +37,10 @@ public class ProductsController : ControllerBase
     {
         return Ok(await _productService.GetFeaturedProductsAsync());
     }
+
+    [HttpGet("Count/{gender}")]
+    public async Task<IActionResult> GetProductsCountByGenderAsync(string gender)
+    {
+        return Ok(await _productService.GetProductsCountByGenderAsync(gender));
+    }
 }

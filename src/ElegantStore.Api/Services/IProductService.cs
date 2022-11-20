@@ -8,4 +8,5 @@ public interface IProductService
     Task<ICollection<ProductDTO>> GetProductsPagedAsync(int page, int pageSize, string gender);
     Task<ProductFullDTO> GetProductWithColorVariantsByIdAsync(int productId);
     Task<ICollection<ProductDTO>> GetFeaturedProductsAsync();
+    Task<int> GetProductsCountByGenderAsync(string gender);
 }

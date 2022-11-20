@@ -52,4 +52,11 @@ public class ProductService : IProductService
 
         return products.Adapt<ICollection<ProductDTO>>();
     }
+
+    public async Task<int> GetProductsCountByGenderAsync(string gender)
+    {
+        var spec = new ProductsCountByGenderSpec(gender);
+
+        return await _productRepository.CountAsync(spec);
+    }
 }
