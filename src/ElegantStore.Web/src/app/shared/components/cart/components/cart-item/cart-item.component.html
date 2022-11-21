@@ -9,7 +9,7 @@
           <h3>
             <a class="capitalize">{{product.brand}}</a>
           </h3>
-          <p class="ml-4">${{product.price}}</p>
+          <p class="ml-4">{{product.price | currency}}</p>
         </div>
         <p class="mt-1 text-sm text-gray-500 capitalize">{{product.model}}</p>
       </div>

@@ -18,7 +18,7 @@
       <ul *ngIf="cartTotal$ | async as total">
         <li class="flex justify-between">
           <span>Subtotal</span>
-          <span>${{total}}</span>
+          <span>{{total | currency}}</span>
         </li>
         <li class="flex justify-between mt-3">
           <span>Shipping</span>
@@ -27,7 +27,7 @@
         <hr class="my-5">
         <li class="flex justify-between">
           <span class="font-medium">Total</span>
-          <span class="font-medium">${{total}}</span>
+          <span class="font-medium">{{total | currency}}</span>
         </li>
       </ul>
       <div class="mt-10 flex justify-center">

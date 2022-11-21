@@ -16,7 +16,7 @@
             </h3>
             <p class="mt-1 text-sm text-gray-500 capitalize">{{product.model}}</p>
           </div>
-          <p class="text-sm font-medium text-cyan-900">${{product.price}}</p>
+          <p class="text-sm font-medium text-cyan-900">{{product.price | currency}}</p>
         </div>
       </div>
     </ng-container>
