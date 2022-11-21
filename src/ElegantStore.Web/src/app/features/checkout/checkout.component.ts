@@ -26,9 +26,9 @@ export default class CheckoutComponent implements OnInit {
 
   checkoutForm = this.formBuilder.group({
     shippingForm: this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      address: ['', [Validators.required, Validators.pattern('@"^[A-Za-z0-9]+(?:\\s[A-Za-z0-9\'_-]+)+$"')]], //Not working
+      firstName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+      lastName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+      address: ['', [Validators.required, Validators.pattern('\\w+(\\s\\w+){2,}')]],
       city: ['', [Validators.required, Validators.pattern('([a-zA-Z]+|[a-zA-Z]+\\\\s[a-zA-Z]+)')]],
       province: ['', Validators.required],
       postalCode: ['', [Validators.required, Validators.pattern('^(?!.*[DFIOQU])[A-VXY][0-9][A-Z] ?[0-9][A-Z][0-9]$')]]
@@ -38,9 +38,9 @@ export default class CheckoutComponent implements OnInit {
       phoneNumber: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(12), Validators.pattern('^(1\\s?)?((\\([0-9]{3}\\))|[0-9]{3})[\\s\\-]?[\\0-9]{3}[\\s\\-]?[0-9]{4}$')]]
     }),
     paymentForm: this.formBuilder.group({
-      cardNumber: ['', Validators.required],
-      expirationDate: ['', Validators.required],
-      cvc: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(3)]]
+      cardNumber: ['', [Validators.required, Validators.pattern('^4[0-9]{12}(?:[0-9]{3})?$')]],
+      expirationDate: ['', [Validators.required, Validators.pattern('^(0[1-9]|1[0-2])\\/?(2[2-8]{1})$')]],
+      cvc: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(3), Validators.pattern('^\\d{3}$')]]
     })
   },
   {

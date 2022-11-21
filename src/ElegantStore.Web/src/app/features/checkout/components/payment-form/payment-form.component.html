@@ -1,18 +1,27 @@
-<h1 class="text-2xl mb-4">Payment</h1>
+<h1 class="text-2xl mb-4">Payment (Visa)</h1>
 <form class="grid grid-cols-1 sm:grid-cols-4 gap-3" [formGroup]="paymentForm"  #form="ngForm">
   <label class="sm:col-span-4" for="cardNumber">
     <span class="font-medium">Card number</span>
     <input type="text" class="border focus:border-gray-400 border-gray-300 w-full p-1 mt-1 rounded-md focus:outline-none" id="cardNumber" formControlName="cardNumber">
-    <span class="text-red-800 font-small" *ngIf="paymentForm.controls['cardNumber'].invalid && (form.submitted || paymentForm.controls['cardNumber'].dirty)">Enter card number</span>
+    <div *ngIf="paymentForm.controls['cardNumber'].invalid && paymentForm.controls['cardNumber'].dirty">
+      <span class="text-red-800 font-small" *ngIf="paymentForm.controls['cardNumber'].errors?.['required']">Card number cannot be empty.</span>
+      <span class="text-red-800 font-small" *ngIf="paymentForm.controls['cardNumber'].errors?.['pattern']">Card enumber is invalid.</span>
+    </div>
   </label>
   <label class="sm:col-span-3" for="expirationDate">
     <span class="font-medium">Expiration date</span>
     <input type="text" class="border focus:border-gray-400 border-gray-300 w-full p-1 mt-1 rounded-md focus:outline-none" id="expirationDate" formControlName="expirationDate">
-    <span class="text-red-800 font-small" *ngIf="paymentForm.controls['expirationDate'].invalid && (form.submitted || paymentForm.controls['expirationDate'].dirty)">Enter card expiration date</span>
+    <div *ngIf="paymentForm.controls['expirationDate'].invalid && paymentForm.controls['expirationDate'].dirty">
+      <span class="text-red-800 font-small" *ngIf="paymentForm.controls['expirationDate'].errors?.['required']">Card expiration date cannot be empty.</span>
+      <span class="text-red-800 font-small" *ngIf="paymentForm.controls['expirationDate'].errors?.['pattern']">Card expiration date is invalid. Accepted format: MM/YY</span>
+    </div>
   </label>
   <label for="cvc">
     <span class="font-medium">CVC</span>
     <input type="text" class="border focus:border-gray-400 border-gray-300 w-full p-1 mt-1 rounded-md focus:outline-none" id="cvc" formControlName="cvc">
-    <span class="text-red-800 font-small" *ngIf="paymentForm.controls['cvc'].invalid && (form.submitted || paymentForm.controls['cvc'].dirty)">Enter CVC code</span>
+    <div *ngIf="paymentForm.controls['cvc'].invalid && paymentForm.controls['cvc'].dirty">
+      <span class="text-red-800 font-small" *ngIf="paymentForm.controls['cvc'].errors?.['required']">CVC code cannot be empty.</span>
+      <span class="text-red-800 font-small" *ngIf="paymentForm.controls['cvc'].errors?.['pattern']">CVC code is invalid.</span>
+    </div>
   </label>
 </form>
