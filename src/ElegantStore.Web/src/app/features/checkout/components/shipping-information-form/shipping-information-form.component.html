@@ -32,7 +32,7 @@
       <span class="text-red-800 font-small" *ngIf="shippingForm.controls['city'].errors?.['pattern']">City is invalid.</span>
     </div>
   </label>
-  <label class="sm:col-span-3" for="province">
+  <label class="sm:col-span-2 lg:col-span-3" for="province">
     <span class="font-medium">Province</span>
     <select class="border focus:border-gray-400 border-gray-300 w-full p-1 mt-1 rounded-md focus:outline-none" id="province" formControlName="province">
       <option>Alberta</option>
@@ -51,7 +51,7 @@
     </select>
     <span class="text-red-800 font-small" *ngIf="shippingForm.controls['province'].invalid && (form.submitted || shippingForm.controls['province'].dirty)">Enter state</span>
   </label>
-  <label  for="postalCode">
+  <label class="sm:col-span-2 lg:col-span-1"  for="postalCode">
     <span class="font-medium">Postal code</span>
     <input type="text" class="border focus:border-gray-400 border-gray-300 w-full p-1 mt-1 rounded-md focus:outline-none" id="postalCode" formControlName="postalCode">
     <div *ngIf="shippingForm.controls['postalCode'].invalid && shippingForm.controls['postalCode'].dirty">
