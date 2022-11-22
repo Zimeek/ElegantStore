@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {CartService} from "../../core/services/cart.service";
-import {Observable} from "rxjs";
+import {map, Observable} from "rxjs";
 import {CartItem} from "../../core/models/cart-item";
 import {CheckoutItemComponent} from "./components/checkout-item/checkout-item.component";
 import {
@@ -12,6 +12,7 @@ import {
 } from "./components/shipping-information-form/shipping-information-form.component";
 import {PaymentFormComponent} from "./components/payment-form/payment-form.component";
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-checkout',
@@ -49,10 +50,18 @@ export default class CheckoutComponent implements OnInit {
 
   constructor(
     private cartService: CartService,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder,
+    private router: Router) { }
 
   ngOnInit(): void {
-    this.cartItems$ = this.cartService.getItems();
+    this.cartItems$ = this.cartService.getItems()
+      .pipe(map(items => {
+        if(items.length === 0) {
+          this.router.navigate(['/'])
+        }
+        return items;
+      }));
+
     this.cartTotal$ = this.cartService.getTotal();
   }
 

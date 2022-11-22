@@ -1,7 +1,6 @@
-import {inject, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
-import {CartService} from "./core/services/cart.service";
 
 const routes: Routes = [
   {
@@ -19,8 +18,7 @@ const routes: Routes = [
   },
   {
     path: 'checkout',
-    loadComponent: () => import('./features/checkout/checkout.component'),
-    canActivate: [() => !inject(CartService).isEmpty()]
+    loadComponent: () => import('./features/checkout/checkout.component')
   },
   {
     path: '**',
