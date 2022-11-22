@@ -1,10 +1,16 @@
 <nav class="bg-cyan-900 sticky top-0 z-10">
   <div class="mx-auto max-w-7xl py-2 px-2 sm:px-6 lg:px-8">
     <div class="relative flex h-16 items-center justify-between">
+      <div class="absolute inset-y-0 left-0 flex items-center pl-2 sm:hidden">
+        <button type="button" class="rounded-full bg-gray-300 text-cyan-800 p-2" id="mobile-menu-toggle">
+          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
       <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
         <div class="flex flex-shrink-0 items-center">
-          <img class="block h-12 w-auto lg:hidden" src="./assets/images/logo-color.svg" alt="Your Company">
-          <img class="hidden h-12 w-auto lg:block" src="./assets/images/logo-color.svg" alt="Your Company">
+          <img class="block h-12 w-auto" src="./assets/images/logo-color.svg" alt="ElegantStore logo">
         </div>
         <div class="hidden sm:ml-6 sm:block">
           <div class="flex space-x-4">
@@ -23,11 +29,11 @@
       </div>
     </div>
   </div>
-  <div class="sm:hidden" id="mobile-menu">
+  <div class="hidden sm:hidden" id="mobile-menu">
     <div class="space-y-1 px-2 pt-2 pb-3">
-      <a href="#" class="text-gray-300 bg-cyan-900 hover:bg-cyan-800 block px-3 py-2 rounded-md text-base font-medium">Home</a>
-      <a href="#" class="text-gray-300 bg-cyan-900 hover:bg-cyan-800 block px-3 py-2 rounded-md text-base font-medium">Men</a>
-      <a href="#" class="text-gray-300 bg-cyan-900 hover:bg-cyan-800 block px-3 py-2 rounded-md text-base font-medium">Women</a>
+      <a class="text-gray-300 bg-cyan-900 hover:bg-cyan-800 block px-3 py-2 rounded-md text-base font-medium" routerLink="/">Home</a>
+      <a class="text-gray-300 bg-cyan-900 hover:bg-cyan-800 block px-3 py-2 rounded-md text-base font-medium" routerLink="/products/men">Men</a>
+      <a class="text-gray-300 bg-cyan-900 hover:bg-cyan-800 block px-3 py-2 rounded-md text-base font-medium" routerLink="/products/women">Women</a>
     </div>
   </div>
 </nav>
