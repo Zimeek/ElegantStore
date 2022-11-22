@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {CommonModule} from "@angular/common";
-import {ActivatedRoute, ParamMap} from "@angular/router";
+import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {BehaviorSubject, combineLatestWith, map, Observable, switchMap} from "rxjs";
 import {Product} from "../../core/models/product";
 import {ProductService} from "../../core/services/product.service";
@@ -26,7 +26,8 @@ export default class ProductsComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.gender$ = this.route.paramMap
@@ -37,6 +38,12 @@ export default class ProductsComponent implements OnInit {
         combineLatestWith(this.gender$),
         switchMap(([page, gender]) => {
           return this.productService.getProductsPaged(page, gender)
+            .pipe(map(products => {
+              if(products.length === 0) {
+                this.router.navigate(['/']);
+              }
+              return products;
+            }))
         }));
 
     this.productsCount$ = this.gender$
