@@ -74,6 +74,9 @@ export class CartService {
     this.cartItems$.next(updatedItems);
 
     return this.httpClient.delete(`api/Cart/${itemId}`)
+  }
 
+  public isEmpty(): boolean {
+    return this.cartItems$.value.length === 0;
   }
 }
