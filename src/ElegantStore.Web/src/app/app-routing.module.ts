@@ -19,6 +19,10 @@ const routes: Routes = [
   {
     path: 'checkout',
     loadComponent: () => import('./features/checkout/checkout.component')
+  },
+  {
+    path: '**',
+    redirectTo: ''
   }
 ]
 
