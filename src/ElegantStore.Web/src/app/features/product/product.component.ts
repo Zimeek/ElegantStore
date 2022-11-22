@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {ProductService} from "../../core/services/product.service";
 import {Product} from "../../core/models/product";
-import {ActivatedRoute, ParamMap} from "@angular/router";
+import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {Unsubscriber} from "../../shared/helpers/unsubscriber";
-import {map, Observable, switchMap, takeUntil} from "rxjs";
+import {catchError, EMPTY, map, Observable, switchMap, takeUntil} from "rxjs";
 import {CommonModule} from "@angular/common";
 import {CartService} from "../../core/services/cart.service";
 import {AddCartItemRequest} from "../../core/requests/add-cart-item-request";
@@ -22,13 +22,20 @@ export default class ProductComponent extends Unsubscriber implements OnInit {
   constructor(
     private productService: ProductService,
     private cartService: CartService,
-    private route: ActivatedRoute) { super() }
+    private route: ActivatedRoute,
+    private router: Router) { super() }
 
   ngOnInit(): void {
     this.product$ = this.route.paramMap
       .pipe(
         map((params: ParamMap) => Number(params.get('id'))),
-        switchMap((id: number) => this.productService.getProductById(id))
+        switchMap((id: number) => {
+          return this.productService.getProductById(id)
+            .pipe(catchError(() => {
+              this.router.navigate(['/']);
+              return EMPTY;
+            }))
+          })
       );
   }
 
