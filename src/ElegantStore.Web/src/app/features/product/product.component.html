@@ -1,10 +1,10 @@
 <div class="mx-auto max-w-2xl py-8 px-4 sm:py-10 sm:px-6 lg:max-w-7xl lg:px-8" *ngIf="product$ | async as product">
   <nav class="flex pb-5 text-sm sm:text-lg">
-    <span>Home</span>
+    <a routerLink="/">Home</a>
     <span class="mx-2">/</span>
-    <span class="capitalize">{{product.gender}}</span>
+    <a class="capitalize" routerLink="/products/{{product.gender}}">{{product.gender}}</a>
     <span class="mx-2">/</span>
-    <span class="capitalize">{{product.brand}} {{product.model}}</span>
+    <span class="capitalize opacity-75">{{product.brand}} {{product.model}}</span>
   </nav>
   <div class="grid auto-cols-max grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-8">
     <div class="w-full h-90 overflow-hidden rounded-md bg-gray-200">

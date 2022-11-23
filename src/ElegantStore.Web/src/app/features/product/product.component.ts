@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ProductService} from "../../core/services/product.service";
 import {Product} from "../../core/models/product";
-import {ActivatedRoute, ParamMap, Router} from "@angular/router";
+import {ActivatedRoute, ParamMap, Router, RouterModule} from "@angular/router";
 import {Unsubscriber} from "../../shared/helpers/unsubscriber";
 import {catchError, EMPTY, map, Observable, switchMap, takeUntil} from "rxjs";
 import {CommonModule} from "@angular/common";
@@ -11,7 +11,7 @@ import {AddCartItemRequest} from "../../core/requests/add-cart-item-request";
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css']
 })
