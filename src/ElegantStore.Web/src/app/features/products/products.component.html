@@ -1,23 +1,24 @@
 <div class="mx-auto max-w-2xl py-16 px-4 sm:py-20 sm:px-6 lg:max-w-7xl lg:px-8" *ngIf="products$ | async as products">
-  <ng-container *ngIf="page$ | async as page">
-    <p>Showing {{page * productsPageSize}} of {{productsCount$ | async}} products</p>
+  <ng-container *ngIf="productsCount$ | async">
     <div class="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
       <ng-container *ngFor="let product of products">
         <app-product-item [product]="product"></app-product-item>
       </ng-container>
     </div>
-    <div class="p-4 flex justify-center items-center">
-      <button type="button" class="p-2 rounded-full bg-gray-300 disabled:opacity-50" (click)="previousPage()" [disabled]="page === 1">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-        </svg>
-      </button>
-      <p class="text-lg mx-6">Page {{page}}</p>
-      <button type="button" class="p-2 rounded-full bg-gray-300 disabled:opacity-50" (click)="nextPage()" [disabled]="page >= pagesCount">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-        </svg>
-      </button>
-    </div>
+    <ng-container *ngIf="page$ | async as page">
+      <div class="p-4 flex justify-center items-center">
+        <button type="button" class="p-2 rounded-full bg-gray-300 disabled:opacity-50" (click)="previousPage()" [disabled]="page === 1">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+          </svg>
+        </button>
+        <p class="text-lg mx-6">Page {{page}}</p>
+        <button type="button" class="p-2 rounded-full bg-gray-300 disabled:opacity-50" (click)="nextPage()" [disabled]="page >= pagesCount">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+          </svg>
+        </button>
+      </div>
+    </ng-container>
   </ng-container>
 </div>

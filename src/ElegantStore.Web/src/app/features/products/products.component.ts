@@ -22,7 +22,6 @@ export default class ProductsComponent implements OnInit {
   productsCount$!: Observable<number>;
 
   pagesCount!: number;
-  productsPageSize = productsPageSize;
 
   constructor(
     private productService: ProductService,
