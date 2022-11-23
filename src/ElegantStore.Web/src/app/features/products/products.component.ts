@@ -30,6 +30,8 @@ export default class ProductsComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+
     this.gender$ = this.route.paramMap
       .pipe(map((params: ParamMap) => String(params.get('gender'))));
 
