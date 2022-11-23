@@ -11,5 +11,6 @@
     <Folder Include="src\app\shared\components" />
     <Folder Include="src\app\shared\components\cart\components" />
     <Folder Include="src\assets\images\men" />
+    <Folder Include="src\assets\images\readme" />
   </ItemGroup>
 </Project>
