@@ -1,5 +1,13 @@
-<div class="mx-auto max-w-2xl py-16 px-4 sm:py-20 sm:px-6 lg:max-w-7xl lg:px-8" *ngIf="products$ | async as products">
+<div class="mx-auto max-w-2xl py-16 px-4 sm:py-20 sm:px-6 lg:max-w-7xl lg:px-8" *ngIf="(products$ | async | sortProducts: sortOption) as products">
   <ng-container *ngIf="productsCount$ | async">
+    <div class="flex justify-end items-center">
+      <span>Sort by</span>
+      <select class="ml-3 border border-grey-300 rounded-sm p-1" (change)="onSelectSortOption($event)">
+        <option value="">Default</option>
+        <option value="priceAsc">Price ascending</option>
+        <option value="priceDesc">Price descending</option>
+      </select>
+    </div>
     <div class="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
       <ng-container *ngFor="let product of products">
         <app-product-item [product]="product"></app-product-item>

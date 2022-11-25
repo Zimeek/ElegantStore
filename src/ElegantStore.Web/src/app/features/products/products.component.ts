@@ -6,11 +6,12 @@ import {Product} from "../../core/models/product";
 import {ProductService} from "../../core/services/product.service";
 import {ProductItemComponent} from "./components/product-item/product-item.component";
 import {productsPageSize} from "../../../environments/environment";
+import {SortProductsPipe} from "../../core/pipes/sort-products-pipe";
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule, ProductItemComponent],
+  imports: [CommonModule, ProductItemComponent, SortProductsPipe],
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -22,6 +23,7 @@ export default class ProductsComponent implements OnInit {
   productsCount$!: Observable<number>;
 
   pagesCount!: number;
+  sortOption!: string;
 
   constructor(
     private productService: ProductService,
@@ -55,6 +57,8 @@ export default class ProductsComponent implements OnInit {
             return productsCount;
           }));
       }));
+
+    this.sortOption = "";
   }
 
   public nextPage(): void {
@@ -67,5 +71,9 @@ export default class ProductsComponent implements OnInit {
     if(this.page$.value > 1) {
       this.page$.next(this.page$.value - 1);
     }
+  }
+
+  public onSelectSortOption(event: any): void {
+    this.sortOption = event.target.value;
   }
 }
